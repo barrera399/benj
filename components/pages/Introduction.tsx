@@ -5,7 +5,7 @@ export default function Introduction() {
     <div className="z-100 flex flex-row items-center min-h-[50vh] justify-between p-10 mt-30 max-w-[1280px] w-full text-white m-auto">
       <div className="flex-1 flex items-center justify-center">
         <Image
-          src="/cv-profile3.jpg"
+          src="/cv-profile3.JPG"
           alt="Profile"
           width={300}
           height={300}
