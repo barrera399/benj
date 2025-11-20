@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import { ParticlesBackground } from "./../components/globals/bg-particle";
+import Header from "@/components/globals/Header";
+import { poppins } from '@/assets/fonts'
+import Footer from "@/components/globals/Footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,9 +28,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.className} antialiased bg-black`}
       >
+        <Header />
+        <ParticlesBackground />
         {children}
+        <Footer />
       </body>
     </html>
   );
