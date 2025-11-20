@@ -4,12 +4,13 @@ import Introduction from "@/components/pages/Introduction";
 import BasicCards from "@/components/pages/BasicCards";
 import Timeline from "@/components/pages/Timeline";
 import Experience from "@/components/pages/Experience";
+import HomeBanner from "@/components/pages/HomeBanner";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <Introduction />
-      <PuzzlePage />
+      {/* <PuzzlePage /> */}
 
       <BasicCards />
       <Experience />

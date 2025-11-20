@@ -63,7 +63,7 @@ export default function Experience() {
         initial={{ y: -50, opacity: 0 }}
         animate={isInView ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.6 }}
-        className="text-5xl md:text-6xl font-bold font-bebas-neue text-teal-400 mb-16"
+        className="text-5xl md:text-6xl font-bold font-bebas-neue text-white mb-16"
       >
         Experience
       </motion.h1>
