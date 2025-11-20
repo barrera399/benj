@@ -2,9 +2,13 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const roles = ["Full Stack Developer", "Problem Solver", "Code Architect", "Tech Enthusiast"];
-const techStack = ["React", "Next.js", "Node.js", "TypeScript", "Python", "AWS"];
+const techStack = ["React", "Next.js", "Node.js", "TypeScript", "Python", "AWS", "MongoDB", "PostgreSQL", "Docker", "Kubernetes"];
+
+// Duplicate array for seamless infinite scroll
+const duplicatedTechStack = [...techStack, ...techStack, ...techStack];
 
 export default function Introduction() {
   const [currentRole, setCurrentRole] = useState(0);
@@ -59,7 +63,7 @@ export default function Introduction() {
   };
 
   return (
-    <div className="relative z-100 flex flex-col items-center justify-center min-h-screen w-full text-white overflow-hidden px-4 md:px-8">
+    <div className="relative z-100 flex min-h-screen w-full text-white overflow-hidden">
       {/* Animated Grid Background */}
       <div className="absolute inset-0 opacity-10">
         <motion.div 
@@ -111,143 +115,246 @@ export default function Introduction() {
         }}
       />
 
-      <motion.div
-        className="relative z-10 max-w-5xl w-full text-center"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Greeting */}
+      {/* Split Screen Layout */}
+      <div className="relative z-10 w-full flex flex-col lg:flex-row min-h-screen">
+        {/* Left Side - Image Section */}
         <motion.div
-          variants={itemVariants}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-6"
-        >
-          <motion.span
-            className="text-4xl md:text-5xl font-light text-gray-400"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            Hello, I am
-          </motion.span>
-        </motion.div>
-
-        {/* Name with Glitch Effect */}
-        <motion.div
-          variants={itemVariants}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-8 relative inline-block"
-        >
-          <motion.h1
-            className="text-6xl md:text-8xl lg:text-9xl font-bold relative"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <span className="relative inline-block">
-              <span className="absolute inset-0 text-teal-400 blur-sm opacity-75">Joseph</span>
-              <span className="relative text-white">Joseph</span>
-            </span>
-          </motion.h1>
-        </motion.div>
-
-        {/* Role Typing Animation */}
-        <motion.div
-          variants={itemVariants}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-12 h-16 md:h-20 flex items-center justify-center"
-        >
-          <div className="text-2xl md:text-4xl lg:text-5xl font-semibold">
-            <span className="text-gray-400">I am a </span>
-            <span className="text-teal-400 italic relative">
-              {displayText}
-              <motion.span
-                className="inline-block w-1 h-8 md:h-12 bg-teal-400 ml-1"
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
-              />
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Tech Stack Tags */}
-        <motion.div
-          variants={itemVariants}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-wrap justify-center gap-3 md:gap-4 mb-12"
-        >
-          {techStack.map((tech, index) => (
-            <motion.div
-              key={tech}
-              className="group relative"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 + index * 0.1, duration: 0.5 }}
-            >
-              <div className="relative px-4 py-2 bg-black/40 backdrop-blur-md border border-teal-400/30 rounded-full 
-                            hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.5)] 
-                            transition-all duration-300 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-teal-400/0 via-teal-400/20 to-teal-400/0 
-                              -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                <span className="relative text-sm md:text-base text-gray-300 group-hover:text-teal-400 transition-colors duration-300">
-                  {tech}
-                </span>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Animated Stats or CTA */}
-        <motion.div
-          variants={itemVariants}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 mt-12"
-        >
-          {[
-            { label: "Projects", value: "50+", icon: "🚀" },
-            { label: "Experience", value: "5+", icon: "💼" },
-            { label: "Technologies", value: "20+", icon: "⚡" },
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              className="text-center"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.5 + index * 0.2, duration: 0.5 }}
-              whileHover={{ scale: 1.1 }}
-            >
-              <div className="text-3xl mb-2">{stat.icon}</div>
-              <div className="text-3xl md:text-4xl font-bold text-teal-400 mb-1">{stat.value}</div>
-              <div className="text-sm md:text-base text-gray-400">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 1 }}
+          className="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12 lg:p-16 relative"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex flex-col items-center gap-2"
+            className="relative group max-w-md w-full"
+            variants={itemVariants}
+            transition={{ duration: 1, ease: "easeOut" }}
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            whileHover={{ scale: 1.05 }}
           >
-            <span className="text-xs text-gray-500">Scroll</span>
+            {/* Outer Glow Ring */}
             <motion.div
-              className="w-6 h-10 border-2 border-teal-400/50 rounded-full flex justify-center p-2"
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <motion.div
-                className="w-1 h-3 bg-teal-400 rounded-full"
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+              className="absolute -inset-8 rounded-full bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 opacity-60 blur-3xl group-hover:opacity-80 transition-opacity duration-500"
+              animate={{
+                rotate: [0, 360],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+              }}
+            />
+            
+            {/* Animated Border Rings */}
+            <motion.div
+              className="absolute -inset-4 rounded-full border-2 border-teal-400/60"
+              animate={{
+                rotate: [0, -360],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+            
+            {/* Image Container */}
+            <div className="relative w-full aspect-square rounded-full overflow-hidden border-4 border-teal-400/40 shadow-[0_0_60px_rgba(20,184,166,0.4)]">
+              <Image
+                src="/cv-profile2.JPG"
+                alt="Joseph"
+                fill
+                className="object-cover object-top scale-[1.2] rounded-full"
+                priority
               />
-            </motion.div>
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 rounded-full" />
+            </div>
+
+            {/* Floating Particles Around Image */}
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-3 h-3 bg-teal-400 rounded-full"
+                style={{
+                  top: `${Math.cos((i * Math.PI * 2) / 8) * 120 + 50}%`,
+                  left: `${Math.sin((i * Math.PI * 2) / 8) * 120 + 50}%`,
+                }}
+                animate={{
+                  y: [0, -40, 0],
+                  opacity: [0.3, 1, 0.3],
+                  scale: [1, 1.8, 1],
+                }}
+                transition={{
+                  duration: 3 + i * 0.3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.2,
+                }}
+              />
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* Right Side - Text Content */}
+        <motion.div
+          className="w-full lg:w-1/2 flex flex-col items-start justify-center p-8 md:p-12 lg:p-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Greeting */}
+          <motion.div
+            variants={itemVariants}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mb-4"
+          >
+            <motion.span
+              className="text-4xl md:text-5xl lg:text-6xl font-light text-gray-400"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              Hello, I am
+            </motion.span>
+          </motion.div>
+
+          {/* Name with Glitch Effect */}
+          <motion.div
+            variants={itemVariants}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mb-6 md:mb-8 relative inline-block"
+          >
+            <motion.h1
+              className="text-6xl md:text-8xl lg:text-9xl font-bold relative"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <span className="relative inline-block">
+                <span className="absolute inset-0 text-teal-400 blur-sm opacity-75">Joseph</span>
+                <span className="relative text-white">Joseph</span>
+              </span>
+            </motion.h1>
+          </motion.div>
+
+          {/* Role Typing Animation */}
+          <motion.div
+            variants={itemVariants}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mb-10 md:mb-12 h-16 md:h-20 lg:h-24 flex items-center"
+          >
+            <div className="text-2xl md:text-4xl lg:text-5xl font-semibold">
+              <span className="text-gray-400">I am a </span>
+              <span className="text-teal-400 italic relative">
+                {displayText}
+                <motion.span
+                  className="inline-block w-1 h-8 md:h-12 lg:h-14 bg-teal-400 ml-1"
+                  animate={{ opacity: [1, 0, 1] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                />
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            variants={itemVariants}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="flex flex-wrap gap-6 md:gap-8 mb-12"
+          >
+            {[
+              { label: "Projects", value: "50+", icon: "🚀" },
+              { label: "Experience", value: "5+", icon: "💼" },
+              { label: "Technologies", value: "20+", icon: "⚡" },
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                className="text-left"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1 + index * 0.2, duration: 0.5 }}
+                whileHover={{ scale: 1.1 }}
+              >
+                <div className="text-3xl mb-2">{stat.icon}</div>
+                <div className="text-3xl md:text-4xl font-bold text-teal-400 mb-1">{stat.value}</div>
+                <div className="text-sm md:text-base text-gray-400">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Infinite Tech Stack Carousel */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 z-20 py-8 overflow-hidden"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
+      >
+        {/* Gradient Fades */}
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-30 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-30 pointer-events-none" />
+        
+        <div className="relative flex">
+          <motion.div
+            className="flex gap-4 md:gap-6"
+            animate={{
+              x: [0, -((techStack.length * 216))], // Move by one set (item width + gap)
+            }}
+            transition={{
+              duration: 30,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            style={{ 
+              display: 'flex',
+              width: 'max-content',
+            }}
+          >
+            {duplicatedTechStack.map((tech, index) => (
+              <div
+                key={`carousel-${tech}-${index}`}
+                className="group relative shrink-0"
+              >
+                <div className="relative px-6 py-3 md:px-8 md:py-4 bg-black/60 backdrop-blur-md border border-teal-400/40 rounded-full 
+                              hover:border-teal-400 hover:shadow-[0_0_25px_rgba(20,184,166,0.6)] 
+                              transition-all duration-300 overflow-hidden whitespace-nowrap min-w-[160px] md:min-w-[200px] text-center">
+                  <div className="absolute inset-0 bg-gradient-to-r from-teal-400/0 via-teal-400/30 to-teal-400/0 
+                                -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                  <span className="relative text-base md:text-lg text-gray-200 group-hover:text-teal-400 transition-colors duration-300 font-medium">
+                    {tech}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        className="absolute bottom-32 md:bottom-40 left-1/2 transform -translate-x-1/2 z-30"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="flex flex-col items-center gap-2"
+        >
+          <span className="text-xs text-gray-500">Scroll</span>
+          <motion.div
+            className="w-6 h-10 border-2 border-teal-400/50 rounded-full flex justify-center p-2"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            <motion.div
+              className="w-1 h-3 bg-teal-400 rounded-full"
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
           </motion.div>
         </motion.div>
       </motion.div>
