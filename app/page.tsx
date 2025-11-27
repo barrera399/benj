@@ -8,12 +8,11 @@ import HomeBanner from "@/components/pages/HomeBanner";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex flex-col min-h-screen items-center justify-center bg-black font-sans">
       <Introduction />
       {/* <PuzzlePage /> */}
-
-      <BasicCards />
       <Experience />
+      <BasicCards />
     </div>
   );
 }

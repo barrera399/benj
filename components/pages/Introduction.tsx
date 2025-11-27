@@ -1,11 +1,28 @@
-'use client'
+"use client";
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import LayoutSmoothScroll from "@/components/globals/LayoutSmoothScroll";
 
-const roles = ["Full Stack Developer", "Problem Solver", "Code Architect", "Tech Enthusiast"];
-const techStack = ["React", "Next.js", "Node.js", "TypeScript", "Python", "AWS", "MongoDB", "PostgreSQL", "Docker", "Kubernetes"];
+const roles = [
+  "Full Stack Developer",
+  "Problem Solver",
+  "Code Architect",
+  "Tech Enthusiast",
+];
+const techStack = [
+  "React",
+  "Next.js",
+  "Node.js",
+  "TypeScript",
+  "Python",
+  "AWS",
+  "MongoDB",
+  "PostgreSQL",
+  "Docker",
+  "Kubernetes",
+];
 
 // Duplicate array for seamless infinite scroll
 const duplicatedTechStack = [...techStack, ...techStack, ...techStack];
@@ -63,17 +80,17 @@ export default function Introduction() {
   };
 
   return (
-    <div className="relative z-100 flex min-h-screen w-full text-white overflow-hidden">
+    <div className="relative z-100 w-full text-white overflow-hidden">
       {/* Animated Grid Background */}
-      <div className="absolute inset-0 opacity-10">
-        <motion.div 
+      <div className="fixed inset-0 opacity-10 pointer-events-none z-0">
+        <motion.div
           className="absolute inset-0"
           style={{
             backgroundImage: `
               linear-gradient(rgba(20, 184, 166, 0.1) 1px, transparent 1px),
               linear-gradient(90deg, rgba(20, 184, 166, 0.1) 1px, transparent 1px)
             `,
-            backgroundSize: '50px 50px',
+            backgroundSize: "50px 50px",
           }}
           animate={{
             x: [0, 50],
@@ -89,7 +106,7 @@ export default function Introduction() {
 
       {/* Floating Orbs */}
       <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-teal-400/20 rounded-full blur-3xl"
+        className="fixed top-20 left-10 w-72 h-72 bg-teal-400/20 rounded-full blur-3xl pointer-events-none z-0"
         animate={{
           x: [0, 100, 0],
           y: [0, 50, 0],
@@ -102,7 +119,7 @@ export default function Introduction() {
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl"
+        className="fixed bottom-20 right-10 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none z-0"
         animate={{
           x: [0, -80, 0],
           y: [0, -60, 0],
@@ -114,6 +131,8 @@ export default function Introduction() {
           ease: "easeInOut",
         }}
       />
+
+      {/* Scrollable Content with Smooth Scroll */}
 
       {/* Split Screen Layout */}
       <div className="relative z-10 w-full flex flex-col lg:flex-row min-h-screen">
@@ -144,7 +163,7 @@ export default function Introduction() {
                 scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
               }}
             />
-            
+
             {/* Animated Border Rings */}
             <motion.div
               className="absolute -inset-4 rounded-full border-2 border-teal-400/60"
@@ -157,7 +176,7 @@ export default function Introduction() {
                 ease: "linear",
               }}
             />
-            
+
             {/* Image Container */}
             <div className="relative w-full aspect-square rounded-full overflow-hidden border-4 border-teal-400/40 shadow-[0_0_60px_rgba(20,184,166,0.4)]">
               <Image
@@ -226,13 +245,15 @@ export default function Introduction() {
             className="mb-6 md:mb-8 relative inline-block"
           >
             <motion.h1
-              className="text-6xl md:text-8xl lg:text-9xl font-bold relative"
+              className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <span className="relative inline-block">
-                <span className="absolute inset-0 text-teal-400 blur-sm opacity-75">Joseph</span>
+                <span className="absolute inset-0 text-teal-400 blur-sm opacity-75">
+                  Joseph
+                </span>
                 <span className="relative text-white">Joseph</span>
               </span>
             </motion.h1>
@@ -277,8 +298,12 @@ export default function Introduction() {
                 whileHover={{ scale: 1.1 }}
               >
                 <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-3xl md:text-4xl font-bold text-teal-400 mb-1">{stat.value}</div>
-                <div className="text-sm md:text-base text-gray-400">{stat.label}</div>
+                <div className="text-3xl md:text-4xl font-bold text-teal-400 mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-sm md:text-base text-gray-400">
+                  {stat.label}
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -287,7 +312,7 @@ export default function Introduction() {
 
       {/* Infinite Tech Stack Carousel */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-20 py-8 overflow-hidden"
+        className="relative z-20 py-8 overflow-hidden w-full"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.8 }}
@@ -295,21 +320,21 @@ export default function Introduction() {
         {/* Gradient Fades */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-30 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-30 pointer-events-none" />
-        
+
         <div className="relative flex">
           <motion.div
             className="flex gap-4 md:gap-6"
             animate={{
-              x: [0, -((techStack.length * 216))], // Move by one set (item width + gap)
+              x: [0, -(techStack.length * 216)], // Move by one set (item width + gap)
             }}
             transition={{
               duration: 30,
               repeat: Infinity,
               ease: "linear",
             }}
-            style={{ 
-              display: 'flex',
-              width: 'max-content',
+            style={{
+              display: "flex",
+              width: "max-content",
             }}
           >
             {duplicatedTechStack.map((tech, index) => (
@@ -317,11 +342,15 @@ export default function Introduction() {
                 key={`carousel-${tech}-${index}`}
                 className="group relative shrink-0"
               >
-                <div className="relative px-6 py-3 md:px-8 md:py-4 bg-black/60 backdrop-blur-md border border-teal-400/40 rounded-full 
+                <div
+                  className="relative px-6 py-3 md:px-8 md:py-4 bg-black/60 backdrop-blur-md border border-teal-400/40 rounded-full 
                               hover:border-teal-400 hover:shadow-[0_0_25px_rgba(20,184,166,0.6)] 
-                              transition-all duration-300 overflow-hidden whitespace-nowrap min-w-[160px] md:min-w-[200px] text-center">
-                  <div className="absolute inset-0 bg-gradient-to-r from-teal-400/0 via-teal-400/30 to-teal-400/0 
-                                -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                              transition-all duration-300 overflow-hidden whitespace-nowrap min-w-[160px] md:min-w-[200px] text-center"
+                >
+                  <div
+                    className="absolute inset-0 bg-gradient-to-r from-teal-400/0 via-teal-400/30 to-teal-400/0 
+                                -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
+                  />
                   <span className="relative text-base md:text-lg text-gray-200 group-hover:text-teal-400 transition-colors duration-300 font-medium">
                     {tech}
                   </span>
@@ -333,8 +362,8 @@ export default function Introduction() {
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-32 md:bottom-40 left-1/2 transform -translate-x-1/2 z-30"
+      {/* <motion.div
+        className="relative z-30 flex items-center justify-center py-12"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
@@ -357,12 +386,14 @@ export default function Introduction() {
             />
           </motion.div>
         </motion.div>
-      </motion.div>
+      </motion.div> */}
 
       {/* Decorative Code Lines */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 overflow-hidden opacity-5 pointer-events-none">
+      <div className="relative h-32 overflow-hidden opacity-5 pointer-events-none">
         <div className="font-mono text-xs md:text-sm text-teal-400 whitespace-nowrap">
-          {'const developer = { name: "Joseph", passion: "Building amazing things" };'.repeat(10)}
+          {'const developer = { name: "Joseph", passion: "Building amazing things" };'.repeat(
+            10
+          )}
         </div>
       </div>
     </div>

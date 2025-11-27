@@ -27,9 +27,11 @@ export const ParticlesBackground = () => {
 
   return (
     init && (
-      <Particles
-        id="tsparticles"
-        options={{
+      <div className="fixed inset-0 z-0">
+        <Particles
+          id="tsparticles"
+          className="w-full h-full"
+          options={{
           background: {
             color: {
               value: '#000000',
@@ -100,7 +102,8 @@ export const ParticlesBackground = () => {
           },
           detectRetina: true,
         }}
-      />
+        />
+      </div>
     )
   )
 }

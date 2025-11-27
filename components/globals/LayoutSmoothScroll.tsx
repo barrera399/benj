@@ -18,8 +18,8 @@ export default function LayoutSmoothScroll({ children }: { children: React.React
   const y = useTransform(smoothY, (val) => -val)
 
   return (
-    <div ref={scrollRef}>
-      <motion.div style={{ y }}>{children}</motion.div>
+    <div ref={scrollRef} className="relative z-100">
+      <motion.div style={{ y }} className="relative z-100">{children}</motion.div>
     </div>
   )
 }
