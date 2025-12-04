@@ -62,17 +62,18 @@ const ImageCard = ({ card, index, isInView }: { card: typeof data[0]; index: num
         />
         
         {/* Green Overlay */}
-        <div className="absolute inset-0 bg-[#afed00]/40 group-hover:bg-[#afed00]/50 transition-all duration-300" />
+        <div className="absolute inset-0 bg-[#afed00]/25 group-hover:bg-[#afed00]/35 transition-all duration-300" />
         
         {/* Gradient Overlay - Different from third card */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#7ab800]/50 via-[#afed00]/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#7ab800]/30 via-[#afed00]/15 to-transparent" />
         
-        {/* Diagonal Grid Pattern - Different style */}
-        <div className="absolute inset-0 opacity-25" style={{
+        {/* Grid Pattern - Similar to card 3 */}
+        <div className="absolute inset-0 opacity-30" style={{
           backgroundImage: `
-            repeating-linear-gradient(45deg, rgba(175, 237, 0, 0.1) 0px, transparent 1px, transparent 20px, rgba(175, 237, 0, 0.1) 21px),
-            repeating-linear-gradient(-45deg, rgba(175, 237, 0, 0.1) 0px, transparent 1px, transparent 20px, rgba(175, 237, 0, 0.1) 21px)
+            linear-gradient(rgba(175, 237, 0, 0.4) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(175, 237, 0, 0.4) 1px, transparent 1px)
           `,
+          backgroundSize: '40px 40px',
         }} />
         
         {/* Radial Scan Effect - Different from linear scan */}
