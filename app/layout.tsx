@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${poppins.className} antialiased bg-black`}
       >
         <Header />
-        <ParticlesBackground />
+        {/* <ParticlesBackground /> */}
         {children}
         <Footer />
       </body>
