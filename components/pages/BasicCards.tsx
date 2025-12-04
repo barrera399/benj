@@ -52,16 +52,14 @@ const ImageCard = ({ card, index, isInView }: { card: typeof data[0]; index: num
         }}
         className="relative h-full w-full overflow-hidden rounded-lg"
       >
-        {/* Video Background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/home.mp4" type="video/mp4" />
-        </video>
+        {/* Image Background */}
+        <Image
+          width={1000}
+          height={1000}
+          className="absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
+          src="/doon-cover.png"
+          alt="Doon Cover"
+        />
         
         {/* Green Overlay */}
         <div className="absolute inset-0 bg-[#afed00]/40 group-hover:bg-[#afed00]/50 transition-all duration-300" />
