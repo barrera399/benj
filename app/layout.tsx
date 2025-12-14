@@ -5,6 +5,7 @@ import { ParticlesBackground } from "./../components/globals/bg-particle";
 import Header from "@/components/globals/Header";
 import { poppins } from '@/assets/fonts'
 import Footer from "@/components/globals/Footer";
+// import Chatbot from "@/components/chatbot/Chatbot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
         {/* <ParticlesBackground /> */}
         {children}
         <Footer />
+        {/* <Chatbot /> */}
       </body>
     </html>
   );
