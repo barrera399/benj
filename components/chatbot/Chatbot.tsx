@@ -25,7 +25,7 @@ export default function Chatbot() {
   const [speechEnabled, setSpeechEnabled] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const chatContainerRef = useRef<HTMLDivElement>(null)
-  const recognitionRef = useRef<SpeechRecognition | null>(null)
+  const recognitionRef:any = useRef<SpeechRecognition | null>(null)
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
