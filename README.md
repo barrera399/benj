@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Contact Form Setup
+
+The contact form uses Google reCAPTCHA to prevent spam. To set it up:
+
+1. Get your reCAPTCHA keys from [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin)
+2. Create a `.env.local` file in the root directory
+3. Add the following environment variables:
+
+```env
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key_here
+RECAPTCHA_SECRET_KEY=your_secret_key_here
+```
+
+4. Restart your development server after adding the environment variables
+
+**Note:** The contact form API route (`app/api/contact/route.ts`) currently logs submissions to the console. You'll need to integrate it with an email service (like Resend, SendGrid, or Nodemailer) or a database to actually receive and store the messages.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

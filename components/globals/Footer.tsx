@@ -66,7 +66,7 @@ export default function Footer() {
         </div>
       </div> */}
       <div className="w-full flex flex-row justify-between z-100">
-      <div className="text-white text-base w-full text-center">© Joseph 2025</div>
+      <div className="text-white text-base w-full text-center">© Joseph 2024</div>
    
       <div className="flex flex-row gap-7">
           {Socials.map(({ icon: Icon, name }, index) => (

@@ -5,6 +5,7 @@ import BasicCards from "@/components/pages/BasicCards";
 import Timeline from "@/components/pages/Timeline";
 import Experience from "@/components/pages/Experience";
 import HomeBanner from "@/components/pages/HomeBanner";
+import Contact from "@/components/pages/Contact";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       {/* <PuzzlePage /> */}
       <Experience />
       <BasicCards />
+      <Contact />
     </div>
   );
 }

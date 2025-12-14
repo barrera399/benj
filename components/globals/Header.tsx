@@ -22,7 +22,7 @@ const headerLinks = [
   {
     id: 4,
     name: "Contact",
-    route: "/contact",
+    route: "/#contact",
   },
 ];
 

@@ -14,8 +14,9 @@ const data = [
   {
     title: "Doon.ph",
     description:
-      "We build custom applications to meet your specific needs. Whether you need a simple website or a complex application, we can help you.",
+      "The Philippines' first fully insured peer-to-peer car-sharing marketplace. Connecting vehicle owners with renters for easy, flexible, and worry-free car rental experiences.",
     image: "/doon-cover.png",
+    url: "https://doon.ph/",
   },
 
   // {
@@ -239,27 +240,29 @@ const ImageCard = ({ card, index, isInView }: { card: typeof data[0]; index: num
         
         {/* Read More */}
         <div className="w-full absolute bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 group-hover:bottom-0 text-right p-6">
-          <motion.div
-            className="relative !text-xs z-50 font-bold text-right cursor-pointer"
-            style={{ color: '#cfff33' }}
-            whileHover={{ scale: 1.1, color: '#e5ff66' }}
-            transition={{ duration: 0.2 }}
-          >
-            <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#cfff33] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_10px_rgba(207,255,51,1)]">
-              Read More
-            </span>
-            <motion.span
-              className="ml-2 inline-block"
-              animate={{ x: [0, 5, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
+          <Link href={card.url || "#"} target="_blank" rel="noopener noreferrer">
+            <motion.div
+              className="relative !text-xs z-50 font-bold text-right cursor-pointer"
+              style={{ color: '#cfff33' }}
+              whileHover={{ scale: 1.1, color: '#e5ff66' }}
+              transition={{ duration: 0.2 }}
             >
-              →
-            </motion.span>
-          </motion.div>
+              <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#cfff33] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_10px_rgba(207,255,51,1)]">
+                Read More
+              </span>
+              <motion.span
+                className="ml-2 inline-block"
+                animate={{ x: [0, 5, 0] }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                →
+              </motion.span>
+            </motion.div>
+          </Link>
         </div>
       </motion.div>
     </div>
@@ -552,30 +555,32 @@ const CardWithParticles = ({ isInView, delay }: { isInView: boolean; delay: numb
             whileHover={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
           >
-            Innovative solutions connecting technology and creativity to build the future.
+            Powers the future of business through data, storytelling, messaging, and customer engagement solutions. Uniting AdSpark, m360, and Inquiro to bring brands closer to their customers.
           </motion.p>
         </div>
         <div className="w-full absolute bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 group-hover:bottom-0 text-right p-6">
-          <motion.div
-            className="relative !text-xs z-50 text-teal-300 font-bold text-right cursor-pointer"
-            whileHover={{ scale: 1.1, color: '#5eead4' }}
-            transition={{ duration: 0.2 }}
-          >
-            <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-teal-400 before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(20,184,166,1)]">
-              Read More
-            </span>
-            <motion.span
-              className="ml-2 inline-block"
-              animate={{ x: [0, 5, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
+          <Link href="https://www.braveconnective.ph/" target="_blank" rel="noopener noreferrer">
+            <motion.div
+              className="relative !text-xs z-50 text-teal-300 font-bold text-right cursor-pointer"
+              whileHover={{ scale: 1.1, color: '#5eead4' }}
+              transition={{ duration: 0.2 }}
             >
-              →
-            </motion.span>
-          </motion.div>
+              <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-teal-400 before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(20,184,166,1)]">
+                Read More
+              </span>
+              <motion.span
+                className="ml-2 inline-block"
+                animate={{ x: [0, 5, 0] }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                →
+              </motion.span>
+            </motion.div>
+          </Link>
         </div>
       </motion.div>
     </div>
@@ -773,33 +778,35 @@ const AspireCard = ({ isInView, delay }: { isInView: boolean; delay: number }) =
             whileHover={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
           >
-            Elevating your vision with innovative solutions and cutting-edge technology.
+            Homes tailored for urban professionals and upwardly mobile families. Featuring themed residential subdivisions, resort-style condos, and high-rise living spaces with future-forward design principles.
           </motion.p>
         </div>
         
         {/* Read More */}
         <div className="w-full absolute bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 group-hover:bottom-0 text-right p-6">
-          <motion.div
-            className="relative !text-xs z-50 font-bold text-right cursor-pointer"
-            style={{ color: '#66b3ff' }}
-            whileHover={{ scale: 1.1, color: '#99ccff' }}
-            transition={{ duration: 0.2 }}
-          >
-            <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#0088cc] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(0,136,204,1)]">
-              Read More
-            </span>
-            <motion.span
-              className="ml-2 inline-block"
-              animate={{ x: [0, 5, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
+          <Link href="https://aspirebyfilinvest.com/" target="_blank" rel="noopener noreferrer">
+            <motion.div
+              className="relative !text-xs z-50 font-bold text-right cursor-pointer"
+              style={{ color: '#66b3ff' }}
+              whileHover={{ scale: 1.1, color: '#99ccff' }}
+              transition={{ duration: 0.2 }}
             >
-              →
-            </motion.span>
-          </motion.div>
+              <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#0088cc] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(0,136,204,1)]">
+                Read More
+              </span>
+              <motion.span
+                className="ml-2 inline-block"
+                animate={{ x: [0, 5, 0] }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                →
+              </motion.span>
+            </motion.div>
+          </Link>
         </div>
       </motion.div>
     </div>
@@ -814,7 +821,6 @@ export default function BasicCards() {
 
   return (
     <div
-      id="contact"
       ref={cardsRef}
       className="flex z-100 flex-col m-auto max-w-[1400px] w-full px-6 md:px-14 py-0 md:py-20 pb-20"
     >
