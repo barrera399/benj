@@ -825,7 +825,7 @@ export default function BasicCards() {
       className="flex z-100 flex-col m-auto max-w-[1400px] w-full px-6 md:px-14 py-0 md:py-20 pb-20"
     >
       <p className="text-4xl font-bold text-center text-white my-20 ">
-        My Recent Work
+        My Recent Works
       </p>
       <div className="flex flex-wrap m-auto justify-center gap-14">
         {data.map((card, index) => (

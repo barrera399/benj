@@ -68,7 +68,7 @@ export default function Footer() {
       <div className="w-full flex flex-row justify-between z-100">
       <div className="text-white text-base w-full text-center">© Joseph 2024</div>
    
-      <div className="flex flex-row gap-7">
+      <div className="flex flex-row gap-7 md:absolute">
           {Socials.map(({ icon: Icon, name }, index) => (
             <Icon key={index} className="text-white h-6 w-6 cursor-pointer" />
           ))}

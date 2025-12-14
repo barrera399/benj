@@ -36,7 +36,7 @@ export default function Experience() {
   return (
     <div
       ref={containerRef}
-      className="w-full max-w-[1280px] min-h-screen mt-20 m-auto z-100 flex flex-col py-14 px-6 md:px-16"
+      className="w-full max-w-[1280px] min-h-[50vh] m-auto z-100 flex flex-col py-14 px-6 md:px-16"
     >
       <motion.h1
         initial={{ y: -50, opacity: 0 }}

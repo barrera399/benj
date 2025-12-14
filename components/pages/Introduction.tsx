@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { FaDownload } from "react-icons/fa";
 import LayoutSmoothScroll from "@/components/globals/LayoutSmoothScroll";
 
 const roles = [
@@ -282,7 +284,7 @@ export default function Introduction() {
           <motion.div
             variants={itemVariants}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="flex flex-wrap gap-6 md:gap-8 mb-12"
+            className="flex flex-wrap gap-6 md:gap-8 mb-8"
           >
             {[
               { label: "Projects", value: "20+", icon: "🚀" },
@@ -306,6 +308,22 @@ export default function Introduction() {
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+
+          {/* Resume Download Button */}
+          <motion.div
+            variants={itemVariants}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mb-12"
+          >
+            <Link
+              href="/Joseph Benjamin Barrera - Resume.pdf"
+              download
+              className="inline-flex items-center gap-3 px-6 py-3 bg-teal-400 hover:bg-teal-500 text-black font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-teal-400/50 hover:scale-105"
+            >
+              <FaDownload className="w-5 h-5" />
+              <span>Resume</span>
+            </Link>
           </motion.div>
         </motion.div>
       </div>

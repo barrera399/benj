@@ -17,7 +17,12 @@ const headerLinks = [
   {
     id: 2,
     name: "About",
-    route: "/about",
+    route: "/#about",
+  },
+  {
+    id: 3,
+    name: "Skills",
+    route: "/#skills",
   },
   {
     id: 4,
