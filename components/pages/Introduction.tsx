@@ -8,7 +8,6 @@ import LayoutSmoothScroll from "@/components/globals/LayoutSmoothScroll";
 const roles = [
   "Full Stack Developer",
   "Problem Solver",
-  "Code Architect",
   "Tech Enthusiast",
 ];
 const techStack = [
@@ -20,6 +19,7 @@ const techStack = [
   "AWS",
   "MongoDB",
   "PostgreSQL",
+  "Supabase",
   "Docker",
   "Kubernetes",
 ];
@@ -285,7 +285,7 @@ export default function Introduction() {
             className="flex flex-wrap gap-6 md:gap-8 mb-12"
           >
             {[
-              { label: "Projects", value: "50+", icon: "🚀" },
+              { label: "Projects", value: "20+", icon: "🚀" },
               { label: "Experience", value: "5+", icon: "💼" },
               { label: "Technologies", value: "20+", icon: "⚡" },
             ].map((stat, index) => (

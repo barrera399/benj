@@ -6,46 +6,25 @@ import { cn } from '@/lib/utils'
 
 const experienceData = [
   {
-    year: "2015",
-    yearRange: "2015",
-    title: "MIT",
-    description: "Undergraduate Project in Computer Science and Engineering, A+",
+    year: "2022",
+    yearRange: "2022",
+    title: "Klaudsol Inc",
+    description: "Software Development Intern. Developed customized Headless CMS (Content Management System) solutions for multiple websites, gaining hands-on experience in full-stack development and client project delivery.",
     column: "left"
   },
   {
-    year: "2016",
-    yearRange: "2016",
-    title: "DoeWeb",
-    description: "Software Development Intern in a US IT company. Used AngularJS, PHP, and basic frameworks.",
+    year: "2023",
+    yearRange: "2023",
+    title: "Project Grey",
+    description: "Full Stack Developer. Worked on end-to-end development of web applications, implementing both frontend and backend solutions while collaborating with cross-functional teams to deliver high-quality software products.",
+    column: "right"
+  },
+  {
+    year: "2024",
+    yearRange: "2024 - Present",
+    title: "Sandlot Inc (formerly AHG Lab)",
+    description: "Full Stack Developer. Working on multiple projects, developing diverse web applications and systems for various clients. Utilizing modern technologies and best practices to build scalable and efficient solutions. Leveraging AI tools and technologies to maximize productivity and deliver high-quality, innovative applications.",
     column: "left"
-  },
-  {
-    year: "2015",
-    yearRange: "2015-2017",
-    title: "DiveNet",
-    description: "Backend developer in a SF hardware startup creating smart equipment for divers. Used Node JS and PostgreSQL, and worked in tight bundle with engineers and security specialists.",
-    column: "left"
-  },
-  {
-    year: "2015",
-    yearRange: "2015-2019",
-    title: "University of Boston",
-    description: "Bachelor of Science in Computer Science. Courses in programming languages, compiler design, data structures, algorithms, data structures, theory of computation.",
-    column: "right"
-  },
-  {
-    year: "2017",
-    yearRange: "2017-2018",
-    title: "WebLook",
-    description: "Full-Stack developer at WebLook web development agency in SF. Created and maintained websites and mobile apps for clients ranging from small businesses to enterprise corporations.",
-    column: "right"
-  },
-  {
-    year: "2018",
-    yearRange: "2018-Present",
-    title: "Remote Freelancer",
-    description: "Having gained a lot of experience in previous jobs, I decided to become a freelancer. Since 2018, I have been collaborating with various companies around the world, working as a UI/UX designer and full-stack developer growing the most complex projects from scratch.",
-    column: "right"
   }
 ]
 
