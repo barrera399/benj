@@ -13,11 +13,18 @@ const experienceData = [
     column: "left"
   },
   {
+    year: "2022",
+    yearRange: "2022 - early 2023",
+    title: "Freelance",
+    description: "Full Stack Developer. Specialized in feature implementation and bug fixing across diverse projects, working with various tech stacks and frameworks. Delved into different technologies. Gained extensive experience adapting to different codebases and implementing solutions that meet specific project requirements.",
+    column: "right"
+  },
+  {
     year: "2023",
     yearRange: "2023",
     title: "Project Grey",
     description: "Full Stack Developer. Worked on end-to-end development of web applications, implementing both frontend and backend solutions while collaborating with cross-functional teams to deliver high-quality software products.",
-    column: "right"
+    column: "left"
   },
   {
     year: "2024",

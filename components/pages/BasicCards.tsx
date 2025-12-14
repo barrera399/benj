@@ -9,14 +9,51 @@ import { ParticlesBackground } from "@/components/globals/bg-particle";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import type { Engine } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
+import ProjectModal from "./ProjectModal";
 
-const data = [
+interface ProjectData {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
+  longDescription: string;
+  techStack: string[];
+  highlights?: string[];
+  features?: string[];
+}
+
+const data: ProjectData[] = [
   {
     title: "Doon.ph",
     description:
       "The Philippines' first fully insured peer-to-peer car-sharing marketplace. Connecting vehicle owners with renters for easy, flexible, and worry-free car rental experiences.",
     image: "/doon-cover.png",
     url: "https://doon.ph/",
+    longDescription: `DOON is a comprehensive car rental platform that connects car owners (hosts) with renters (guests) in a seamless, secure marketplace. The platform features separate dashboards for hosts and guests, each tailored to their specific needs.
+
+Hosts can list their cars with dynamic fields, with all car makes and models saved in the database. The platform automatically creates contracts programmatically when a car is successfully rented. Hosts have access to a powerful dashboard to manage their listings and rentals.
+
+Guests can browse available cars, view detailed information, and communicate directly with car owners through the platform's built-in chat system. The guest dashboard provides an intuitive interface for finding and booking the perfect vehicle.
+
+To ensure security and prevent scams, both hosts and guests must verify their identity with their real driver's license before accessing the platform. This careful verification process creates a trusted environment for all users.
+
+The platform also includes a Fleet feature, allowing car rental companies to list their vehicles and manage their business operations through the platform.`,
+    techStack: ["Next.js", "TypeScript", "Xano", "MySQL", "Firebase", "AWS", "Lambda", "Docker", "EC2"],
+    highlights: ["Pioneer Partner", "Proven Revenue"],
+    features: [
+      "Separate dashboards for hosts and guests",
+      "Dynamic car listing with database-driven makes and models",
+      "Programmatic contract creation upon successful rental",
+      "Built-in chat system for host-guest communication",
+      "Pre-rental inspection: Capture all car angles before guest departure with comprehensive checklist",
+      "Post-rental inspection: Damage verification system to ensure car condition matches pre-rental state",
+      "Early return functionality",
+      "Dispute filing system",
+      "Trip extension feature",
+      "Fleet management for car rental companies",
+      "KYC verification with driver's license",
+      "Secure and trusted marketplace environment"
+    ],
   },
 
   // {
@@ -35,7 +72,17 @@ const data = [
   // }
 ];
 
-const ImageCard = ({ card, index, isInView }: { card: typeof data[0]; index: number; isInView: boolean }) => {
+const ImageCard = ({ 
+  card, 
+  index, 
+  isInView, 
+  onOpenModal 
+}: { 
+  card: ProjectData; 
+  index: number; 
+  isInView: boolean;
+  onOpenModal: (project: ProjectData) => void;
+}) => {
   const [isCardHovered, setIsCardHovered] = useState(false);
 
   return (
@@ -240,29 +287,28 @@ const ImageCard = ({ card, index, isInView }: { card: typeof data[0]; index: num
         
         {/* Read More */}
         <div className="w-full absolute bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 group-hover:bottom-0 text-right p-6">
-          <Link href={card.url || "#"} target="_blank" rel="noopener noreferrer">
-            <motion.div
-              className="relative !text-xs z-50 font-bold text-right cursor-pointer"
-              style={{ color: '#cfff33' }}
-              whileHover={{ scale: 1.1, color: '#e5ff66' }}
-              transition={{ duration: 0.2 }}
+          <motion.div
+            onClick={() => onOpenModal(card)}
+            className="relative !text-xs z-50 font-bold text-right cursor-pointer"
+            style={{ color: '#cfff33' }}
+            whileHover={{ scale: 1.1, color: '#e5ff66' }}
+            transition={{ duration: 0.2 }}
+          >
+            <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#cfff33] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_10px_rgba(207,255,51,1)]">
+              Read More
+            </span>
+            <motion.span
+              className="ml-2 inline-block"
+              animate={{ x: [0, 5, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
             >
-              <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#cfff33] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_10px_rgba(207,255,51,1)]">
-                Read More
-              </span>
-              <motion.span
-                className="ml-2 inline-block"
-                animate={{ x: [0, 5, 0] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              >
-                →
-              </motion.span>
-            </motion.div>
-          </Link>
+              →
+            </motion.span>
+          </motion.div>
         </div>
       </motion.div>
     </div>
@@ -816,26 +862,41 @@ const AspireCard = ({ isInView, delay }: { isInView: boolean; delay: number }) =
 export default function BasicCards() {
   const cardsRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView(cardsRef, { once: false });
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
 
+  const handleOpenModal = (project: ProjectData) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    // Small delay before clearing project to allow exit animation
+    setTimeout(() => setSelectedProject(null), 300);
+  };
+
   return (
-    <div
-      ref={cardsRef}
-      className="flex z-100 flex-col m-auto max-w-[1400px] w-full px-6 md:px-14 py-0 md:py-20 pb-20"
-    >
-      <p className="text-4xl font-bold text-center text-white my-20 ">
-        My Recent Works
-      </p>
-      <div className="flex flex-wrap m-auto justify-center gap-14">
-        {data.map((card, index) => (
-          <ImageCard
-            key={index}
-            card={card}
-            index={index}
-            isInView={isInView}
-          />
-        ))}
+    <>
+      <div
+        ref={cardsRef}
+        className="flex z-100 flex-col m-auto max-w-[1400px] w-full px-6 md:px-14 py-0 md:py-20 pb-20"
+      >
+        <p className="text-4xl font-bold text-center text-white my-20 ">
+          My Recent Works
+        </p>
+        <div className="flex flex-wrap m-auto justify-center gap-14">
+          {data.map((card, index) => (
+            <ImageCard
+              key={index}
+              card={card}
+              index={index}
+              isInView={isInView}
+              onOpenModal={handleOpenModal}
+            />
+          ))}
         <CardWithParticles
           isInView={isInView}
           delay={2 * 0.3}
@@ -846,5 +907,13 @@ export default function BasicCards() {
         />
       </div>
     </div>
+
+    {/* Project Modal - Rendered outside card hierarchy */}
+    <ProjectModal
+      project={selectedProject}
+      isOpen={isModalOpen}
+      onClose={handleCloseModal}
+    />
+    </>
   );
 }

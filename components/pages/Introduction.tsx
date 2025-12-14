@@ -318,7 +318,7 @@ export default function Introduction() {
           >
             <Link
               href="/Joseph Benjamin Barrera - Resume.pdf"
-              download
+             
               className="inline-flex items-center gap-3 px-6 py-3 bg-teal-400 hover:bg-teal-500 text-black font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-teal-400/50 hover:scale-105"
             >
               <FaDownload className="w-5 h-5" />
