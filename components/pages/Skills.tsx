@@ -6,36 +6,32 @@ import React from 'react'
 const skillsData = {
   frontend: [
     { name: 'TypeScript', level: 90 },
-    { name: 'Next.js', level: 90 },
-    { name: 'Vite', level: 85 },
-    { name: 'React', level: 90 },
+    { name: 'Next.js', level: 100 },
+    { name: 'React', level: 100 },
     { name: 'JavaScript', level: 90 },
-    { name: 'Sass', level: 85 },
-    { name: 'Tailwind CSS', level: 90 },
-    { name: 'HTML/CSS', level: 95 },
+    { name: 'Tailwind CSS', level: 95 },
   ],
   backend: [
     { name: 'Node.js', level: 90 },
     { name: 'Express.js', level: 90 },
-    { name: 'Python', level: 85 },
-    { name: 'FastAPI', level: 85 },
-    { name: 'REST APIs', level: 90 },
+    { name: 'Python', level: 70 },
+    { name: 'FastAPI', level: 65 },
+
   ],
   databases: [
-    { name: 'PostgreSQL', level: 90 },
+    { name: 'PostgreSQL', level: 85 },
     { name: 'MySQL', level: 85 },
-    { name: 'MongoDB', level: 85 },
+    { name: 'MongoDB', level: 100 },
     { name: 'DynamoDB', level: 80 },
     { name: 'Aurora SQL', level: 80 },
-    { name: 'Supabase', level: 90 },
+    { name: 'Supabase', level: 100 },
   ],
   tools: [
-    { name: 'GCP', level: 80 },
+    { name: 'GCP', level: 65 },
     { name: 'AWS', level: 100 },
     { name: 'Strapi CMS', level: 85 },
-    { name: 'Payload CMS', level: 80 },
-    { name: 'Git', level: 100 },
-    { name: 'Docker', level: 75 },
+    { name: 'Payload CMS', level: 100 },
+    { name: 'Docker', level: 90 },
   ],
 }
 
