@@ -16,6 +16,19 @@ declare global {
 export default function Contact() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: '-100px' })
+  const [hasAnimated, setHasAnimated] = useState(false)
+
+  // Fallback: ensure content is visible even if intersection observer doesn't trigger
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isInView && !hasAnimated) {
+        setHasAnimated(true)
+      }
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [isInView, hasAnimated])
+
+  const shouldShow = isInView || hasAnimated
   
   const [formData, setFormData] = useState({
     email: '',
@@ -193,7 +206,7 @@ export default function Contact() {
     >
       <motion.h1
         initial={{ y: -50, opacity: 0 }}
-        animate={isInView ? { y: 0, opacity: 1 } : {}}
+        animate={shouldShow ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.6 }}
         className="text-5xl md:text-6xl font-bold font-bebas-neue text-white mb-16 text-center"
       >
@@ -202,7 +215,7 @@ export default function Contact() {
 
       <motion.div
         initial={{ y: 50, opacity: 0 }}
-        animate={isInView ? { y: 0, opacity: 1 } : {}}
+        animate={shouldShow ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.6, delay: 0.2 }}
         className="max-w-2xl mx-auto w-full"
       >

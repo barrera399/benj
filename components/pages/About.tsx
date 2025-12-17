@@ -6,6 +6,19 @@ import React from 'react'
 export default function About() {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: '-100px' })
+  const [hasAnimated, setHasAnimated] = React.useState(false)
+
+  // Fallback: ensure content is visible even if intersection observer doesn't trigger
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isInView && !hasAnimated) {
+        setHasAnimated(true)
+      }
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [isInView, hasAnimated])
+
+  const shouldShow = isInView || hasAnimated
 
   return (
     <div
@@ -29,7 +42,7 @@ export default function About() {
 
       <motion.h1
         initial={{ y: -50, opacity: 0 }}
-        animate={isInView ? { y: 0, opacity: 1 } : {}}
+        animate={shouldShow ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.6 }}
         className="text-5xl md:text-6xl font-bold font-bebas-neue text-white mb-16 text-center relative z-10"
       >
@@ -40,7 +53,7 @@ export default function About() {
         {/* Main Content Card */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={shouldShow ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative"
         >
@@ -85,7 +98,7 @@ export default function About() {
               <div className="space-y-6 text-white">
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  animate={shouldShow ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="text-lg md:text-xl leading-relaxed text-gray-200"
                 >
@@ -97,7 +110,7 @@ export default function About() {
 
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  animate={shouldShow ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="text-lg md:text-xl leading-relaxed text-gray-200"
                 >
@@ -109,7 +122,7 @@ export default function About() {
 
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  animate={shouldShow ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: 0.6 }}
                   className="text-lg md:text-xl leading-relaxed text-gray-200"
                 >

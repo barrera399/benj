@@ -93,13 +93,16 @@ const ImageCard = ({
   card, 
   index, 
   isInView, 
-  onOpenModal 
+  onOpenModal,
+  shouldShow
 }: { 
   card: ProjectData; 
   index: number; 
   isInView: boolean;
   onOpenModal: (project: ProjectData) => void;
+  shouldShow?: boolean;
 }) => {
+  const displayShow = shouldShow !== undefined ? shouldShow : isInView;
   const [isCardHovered, setIsCardHovered] = useState(false);
 
   const [isMobile, setIsMobile] = useState(false);
@@ -292,7 +295,7 @@ const ImageCard = ({
             <motion.p
               className="!text-base sm:!text-xl md:!text-3xl font-bold text-white text-center"
               initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              animate={displayShow ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: index * 0.3 + 0.5, duration: 0.8 }}
               style={{
                 textShadow: '0 0 20px rgba(0,0,0,0.8), 0 0 40px rgba(175, 237, 0, 0.6), 0 0 60px rgba(175, 237, 0, 0.4)',
@@ -934,6 +937,19 @@ export default function BasicCards() {
   const isInView = useInView(cardsRef, { once: true });
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  // Fallback: ensure content is visible even if intersection observer doesn't trigger
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isInView && !hasAnimated) {
+        setHasAnimated(true);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [isInView, hasAnimated]);
+
+  const shouldShow = isInView || hasAnimated;
 
   const router = useRouter();
 
@@ -965,15 +981,16 @@ export default function BasicCards() {
               index={index}
               isInView={isInView}
               onOpenModal={handleOpenModal}
+              shouldShow={shouldShow}
             />
           ))}
         <CardWithParticles
-          isInView={isInView}
+          isInView={shouldShow}
           delay={2 * 0.3}
           onOpenModal={handleOpenModal}
         />
         <AspireCard
-          isInView={isInView}
+          isInView={shouldShow}
           delay={3 * 0.3}
           onOpenModal={handleOpenModal}
         />

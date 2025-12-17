@@ -39,6 +39,19 @@ export default function Experience() {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: "-100px" })
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
+  const [hasAnimated, setHasAnimated] = React.useState(false)
+
+  // Fallback: ensure content is visible even if intersection observer doesn't trigger
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isInView && !hasAnimated) {
+        setHasAnimated(true)
+      }
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [isInView, hasAnimated])
+
+  const shouldShow = isInView || hasAnimated
 
   return (
     <div
@@ -47,7 +60,7 @@ export default function Experience() {
     >
       <motion.h1
         initial={{ y: -50, opacity: 0 }}
-        animate={isInView ? { y: 0, opacity: 1 } : {}}
+        animate={shouldShow ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.6 }}
         className="text-5xl md:text-6xl font-bold font-bebas-neue text-white mb-16"
       >
@@ -59,7 +72,7 @@ export default function Experience() {
         <motion.div
           className="md:hidden absolute left-0 top-0 w-[2px] bg-teal-400/50 origin-top"
           initial={{ scaleY: 0 }}
-          animate={isInView ? { scaleY: 1 } : {}}
+          animate={shouldShow ? { scaleY: 1 } : {}}
           transition={{
             duration: experienceData.length * 0.3,
             delay: 0.2,
@@ -75,7 +88,7 @@ export default function Experience() {
         <motion.div
           className="hidden md:block absolute left-0 top-0 w-[4px] bg-teal-400 origin-top"
           initial={{ scaleY: 0 }}
-          animate={isInView ? { scaleY: 1 } : {}}
+          animate={shouldShow ? { scaleY: 1 } : {}}
           transition={{
             duration: experienceData.length * 0.3,
             delay: 0.2,
@@ -95,7 +108,7 @@ export default function Experience() {
             <motion.div
               key={index}
               initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
+              animate={shouldShow ? { opacity: 1 } : {}}
               transition={{
                 duration: 0.5,
                 delay: index * 0.2 + 0.3,
@@ -153,7 +166,7 @@ export default function Experience() {
               <div className="flex-1 pl-4 md:pl-10">
                 <motion.h3
                   initial={{ opacity: 0 }}
-                  animate={isInView ? { opacity: 1 } : {}}
+                  animate={shouldShow ? { opacity: 1 } : {}}
                   transition={{
                     duration: 0.5,
                     delay: index * 0.2 + 0.3
@@ -164,7 +177,7 @@ export default function Experience() {
                 </motion.h3>
                 <motion.p
                   initial={{ opacity: 0 }}
-                  animate={isInView ? { opacity: 1 } : {}}
+                  animate={shouldShow ? { opacity: 1 } : {}}
                   transition={{
                     duration: 0.5,
                     delay: index * 0.2 + 0.4
