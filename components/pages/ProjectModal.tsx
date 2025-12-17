@@ -73,12 +73,14 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               {/* Header */}
               <div className="relative h-64 md:h-80 overflow-hidden">
                 {/* Check if image is a logo (ends with logo filenames) */}
-                {project.image.includes('brave') || project.image.includes('aspire') ? (
+                {project.image.includes('brave') || project.image.includes('aspire') || project.image.includes('crafted-catalyst') ? (
                   <>
                     {/* Gradient background for logos */}
                     <div className={`absolute inset-0 ${
                       project.image.includes('brave') 
                         ? 'bg-gradient-to-br from-teal-900 via-teal-800 to-teal-900' 
+                        : project.image.includes('crafted-catalyst')
+                        ? 'bg-gradient-to-br from-teal-500 via-blue-500 to-purple-600'
                         : 'bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900'
                     }`} />
                     {/* Centered logo */}
