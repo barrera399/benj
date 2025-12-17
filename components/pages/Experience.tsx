@@ -37,7 +37,7 @@ const experienceData = [
 
 export default function Experience() {
   const containerRef = React.useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { once: false, margin: "-100px" })
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" })
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
 
   return (

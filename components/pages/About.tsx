@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function About() {
   const containerRef = React.useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { once: false, margin: '-100px' })
+  const isInView = useInView(containerRef, { once: true, margin: '-100px' })
 
   return (
     <div

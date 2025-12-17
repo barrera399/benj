@@ -931,7 +931,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
 
 export default function BasicCards() {
   const cardsRef = React.useRef<HTMLDivElement>(null);
-  const isInView = useInView(cardsRef, { once: false });
+  const isInView = useInView(cardsRef, { once: true });
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

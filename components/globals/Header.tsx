@@ -158,7 +158,7 @@ const MainHeader = () => {
                   transition={{ delay: 0.4 }}
                   className="text-gray-400 text-sm"
                 >
-                  © Joseph 2025
+                  © Joseph 2024
                 </motion.div>
               </div>
             </div>
