@@ -55,9 +55,25 @@ export default function Experience() {
       </motion.h1>
 
       <div className="w-full flex flex-col max-w-4xl relative">
-        {/* Continuous vertical line */}
+        {/* Mobile vertical line */}
         <motion.div
-          className="absolute left-0 top-0 w-[4px] bg-teal-400 origin-top"
+          className="md:hidden absolute left-0 top-0 w-[2px] bg-teal-400/50 origin-top"
+          initial={{ scaleY: 0 }}
+          animate={isInView ? { scaleY: 1 } : {}}
+          transition={{
+            duration: experienceData.length * 0.3,
+            delay: 0.2,
+            ease: "easeInOut"
+          }}
+          style={{
+            height: `calc(100% - 20px)`,
+            transformOrigin: "top"
+          }}
+        />
+        
+        {/* Desktop vertical line */}
+        <motion.div
+          className="hidden md:block absolute left-0 top-0 w-[4px] bg-teal-400 origin-top"
           initial={{ scaleY: 0 }}
           animate={isInView ? { scaleY: 1 } : {}}
           transition={{
@@ -85,11 +101,17 @@ export default function Experience() {
                 delay: index * 0.2 + 0.3,
                 ease: [0.25, 0.1, 0.25, 1]
               }}
-              className="flex h-[140px] flex-row items-center gap-4 md:gap-6 relative"
+              className="flex min-h-[140px] md:h-[140px] flex-row items-start md:items-center gap-4 md:gap-6 relative mb-6 md:mb-0"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className="relative shrink-0 w-[4px] h-full flex items-start justify-center">
+              {/* Mobile: Simple dot indicator */}
+              <div className="md:hidden relative shrink-0 w-[4px] h-full flex items-start justify-center pt-2">
+                <div className="bg-teal-400 rounded-full w-3 h-3 absolute top-[8px] left-[-6px]"></div>
+              </div>
+              
+              {/* Desktop: Animated diamond */}
+              <div className="hidden md:block relative shrink-0 w-[4px] h-full flex items-start justify-center">
                 <motion.div
                   initial={{ scale: 0, rotate: 45 }}
                   animate={
@@ -127,7 +149,8 @@ export default function Experience() {
                   <div className="bg-black h-[12px] w-[12px] rounded-sm"></div>
                 </motion.div>
               </div>
-              <div className="flex-1 pl-10">
+              
+              <div className="flex-1 pl-4 md:pl-10">
                 <motion.h3
                   initial={{ opacity: 0 }}
                   animate={isInView ? { opacity: 1 } : {}}

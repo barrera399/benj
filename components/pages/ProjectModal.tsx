@@ -72,12 +72,36 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             <div className="w-full max-w-4xl max-h-[90vh] bg-black border border-teal-400/30 rounded-2xl overflow-hidden shadow-2xl pointer-events-auto flex flex-col">
               {/* Header */}
               <div className="relative h-64 md:h-80 overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                />
+                {/* Check if image is a logo (ends with logo filenames) */}
+                {project.image.includes('brave') || project.image.includes('aspire') ? (
+                  <>
+                    {/* Gradient background for logos */}
+                    <div className={`absolute inset-0 ${
+                      project.image.includes('brave') 
+                        ? 'bg-gradient-to-br from-teal-900 via-teal-800 to-teal-900' 
+                        : 'bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900'
+                    }`} />
+                    {/* Centered logo */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        width={200}
+                        height={200}
+                        className="object-contain opacity-90"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
                 
                 {/* Close Button */}

@@ -143,3 +143,10 @@
     border-color: rgba(20, 184, 166, 0.5);
   }
 }
+
+/* Hide reCAPTCHA badge */
+.grecaptcha-badge {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  display: none !important;
+}

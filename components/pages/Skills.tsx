@@ -54,7 +54,52 @@ export default function Skills() {
         Skills & Technologies
       </motion.h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+      {/* Mobile-Only Design */}
+      <div className="md:hidden space-y-6 max-w-6xl mx-auto">
+        {Object.entries(skillsData).map(([category, skills], categoryIndex) => (
+          <motion.div
+            key={category}
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: categoryIndex * 0.15 }}
+            className="bg-gradient-to-br from-black/80 to-gray-900/80 border-l-4 border-teal-400 rounded-r-xl p-5 shadow-lg shadow-teal-400/10"
+          >
+            <h3 className="text-xl font-bold text-teal-400 mb-4 capitalize flex items-center gap-2">
+              <span className="w-3 h-3 bg-teal-400 rounded-full animate-pulse"></span>
+              {category}
+            </h3>
+            <div className="space-y-3">
+              {skills.map((skill, index) => (
+                <motion.div
+                  key={skill.name}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.4, delay: categoryIndex * 0.15 + index * 0.08 }}
+                  className="bg-black/40 rounded-lg p-3 border border-teal-400/20"
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-white font-semibold text-sm">{skill.name}</span>
+                    <span className="text-teal-400 text-xs font-bold bg-teal-400/10 px-2 py-1 rounded-full">
+                      {skill.level}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-800/60 rounded-full h-2 overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={isInView ? { width: `${skill.level}%` } : {}}
+                      transition={{ duration: 0.8, delay: categoryIndex * 0.15 + index * 0.08, ease: "easeOut" }}
+                      className="h-full bg-gradient-to-r from-teal-400 via-teal-500 to-teal-400 rounded-full shadow-[0_0_8px_rgba(20,184,166,0.6)]"
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Desktop Design - Unchanged */}
+      <div className="hidden md:grid grid-cols-4 gap-8 max-w-6xl mx-auto">
         {Object.entries(skillsData).map(([category, skills], categoryIndex) => (
           <motion.div
             key={category}

@@ -140,7 +140,7 @@ export default function Introduction() {
       <div className="relative z-10 w-full flex flex-col lg:flex-row min-h-screen">
         {/* Left Side - Image Section */}
         <motion.div
-          className="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12 lg:p-16 relative"
+          className="w-full lg:w-1/2 flex items-center justify-center p-8 mt-20 md:mt-0 md:p-12 lg:p-16 relative"
           variants={containerVariants}
           initial="hidden"
           animate="visible"

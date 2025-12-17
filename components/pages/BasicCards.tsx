@@ -55,21 +55,38 @@ The platform also includes a Fleet feature, allowing car rental companies to lis
       "Secure and trusted marketplace environment"
     ],
   },
-
-  // {
-  //     title: "AI Integration",
-  //     description: "We build custom applications to meet your specific needs. Whether you need a simple website or a complex application, we can help you.",
-  //     image:"/p2.png",
-
-  // }
-  // ,
-
-  // {
-  //     title: "Portfolio\nWebsite",
-  //     description: "We build custom applications to meet your specific needs. Whether you need a simple website or a complex application, we can help you.",
-  //     image:"/p3.webp",
-
-  // }
+  {
+    title: "Brave Connective",
+    description: "Powers the future of business through data, storytelling, messaging, and customer engagement solutions. Uniting AdSpark, m360, and Inquiro to bring brands closer to their customers.",
+    image: "/white_brave.png",
+    url: "https://www.braveconnective.ph/",
+    longDescription: `Brave Connective is a comprehensive business solutions platform that unifies multiple companies (AdSpark, m360, and Inquiro) to deliver integrated data, storytelling, messaging, and customer engagement services. The platform enables brands to connect more effectively with their customers through innovative digital solutions and strategic communication strategies.`,
+    techStack: ["Next.js", "TypeScript", "React", "Node.js", "Payload CMS"],
+    highlights: ["Multi-Company Integration", "Customer Engagement"],
+    features: [
+      "Unified platform for multiple companies",
+      "Data-driven business solutions",
+      "Storytelling and messaging services",
+      "Customer engagement tools",
+      "Brand-to-customer connectivity"
+    ],
+  },
+  {
+    title: "Aspire",
+    description: "Homes tailored for urban professionals and upwardly mobile families. Featuring themed residential subdivisions, resort-style condos, and high-rise living spaces with future-forward design principles.",
+    image: "/aspire.png",
+    url: "https://aspirebyfilinvest.com/",
+    longDescription: `Aspire by Filinvest is a premier real estate development platform offering homes designed for urban professionals and upwardly mobile families. The platform showcases themed residential subdivisions, resort-style condominiums, and high-rise living spaces, all built with future-forward design principles and modern amenities.`,
+    techStack: ["Next.js", "TypeScript", "React", "Payload CMS"],
+    highlights: ["Real Estate Platform", "Modern Design"],
+    features: [
+      "Themed residential subdivisions",
+      "Resort-style condominiums",
+      "High-rise living spaces",
+      "Future-forward design principles",
+      "Urban professional-focused homes"
+    ],
+  },
 ];
 
 const ImageCard = ({ 
@@ -87,9 +104,15 @@ const ImageCard = ({
 
   return (
     <div
-      className="w-[310px] h-[100px] rounded-lg sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105"
+      className="w-[310px] h-[350px] rounded-lg sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105 cursor-pointer md:cursor-default"
       onMouseEnter={() => setIsCardHovered(true)}
       onMouseLeave={() => setIsCardHovered(false)}
+      onClick={() => {
+        // On mobile, clicking the card opens the modal
+        if (window.innerWidth < 768) {
+          onOpenModal(card);
+        }
+      }}
     >
       <motion.div
         initial={{ y: 100, opacity: 0 }}
@@ -286,10 +309,13 @@ const ImageCard = ({
         </div>
         
         {/* Read More */}
-        <div className="w-full absolute bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 group-hover:bottom-0 text-right p-6">
+        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6">
           <motion.div
-            onClick={() => onOpenModal(card)}
-            className="relative !text-xs z-50 font-bold text-right cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent card click from firing
+              onOpenModal(card);
+            }}
+            className="relative !text-xs z-50 font-bold text-right cursor-pointer md:cursor-pointer"
             style={{ color: '#cfff33' }}
             whileHover={{ scale: 1.1, color: '#e5ff66' }}
             transition={{ duration: 0.2 }}
@@ -315,10 +341,13 @@ const ImageCard = ({
   );
 };
 
-const CardWithParticles = ({ isInView, delay }: { isInView: boolean; delay: number }) => {
+const CardWithParticles = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay: number; onOpenModal: (project: ProjectData) => void }) => {
   const [init, setInit] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
+
+  // Get Brave project data
+  const braveProject: ProjectData = data.find(p => p.title === "Brave Connective") || data[1];
 
   useEffect(() => {
     initParticlesEngine(async (engine: Engine) => {
@@ -330,9 +359,15 @@ const CardWithParticles = ({ isInView, delay }: { isInView: boolean; delay: numb
 
   return (
     <div
-      className="w-[310px] h-[100px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105"
+      className="w-[310px] h-[350px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105 cursor-pointer md:cursor-default"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => {
+        // On mobile, clicking the card opens the modal
+        if (window.innerWidth < 768) {
+          onOpenModal(braveProject);
+        }
+      }}
     >
       <motion.div
         initial={{ y: 100, opacity: 0 }}
@@ -604,43 +639,58 @@ const CardWithParticles = ({ isInView, delay }: { isInView: boolean; delay: numb
             Powers the future of business through data, storytelling, messaging, and customer engagement solutions. Uniting AdSpark, m360, and Inquiro to bring brands closer to their customers.
           </motion.p>
         </div>
-        <div className="w-full absolute bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 group-hover:bottom-0 text-right p-6">
-          <Link href="https://www.braveconnective.ph/" target="_blank" rel="noopener noreferrer">
-            <motion.div
-              className="relative !text-xs z-50 text-teal-300 font-bold text-right cursor-pointer"
-              whileHover={{ scale: 1.1, color: '#5eead4' }}
-              transition={{ duration: 0.2 }}
+        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6">
+          <motion.div
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent card click from firing
+              if (window.innerWidth < 768) {
+                onOpenModal(braveProject);
+              } else {
+                window.open("https://www.braveconnective.ph/", "_blank", "noopener,noreferrer");
+              }
+            }}
+            className="relative !text-xs z-50 text-teal-300 font-bold text-right cursor-pointer"
+            whileHover={{ scale: 1.1, color: '#5eead4' }}
+            transition={{ duration: 0.2 }}
+          >
+            <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-teal-400 before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(20,184,166,1)]">
+              Read More
+            </span>
+            <motion.span
+              className="ml-2 inline-block"
+              animate={{ x: [0, 5, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
             >
-              <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-teal-400 before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(20,184,166,1)]">
-                Read More
-              </span>
-              <motion.span
-                className="ml-2 inline-block"
-                animate={{ x: [0, 5, 0] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              >
-                →
-              </motion.span>
-            </motion.div>
-          </Link>
+              →
+            </motion.span>
+          </motion.div>
         </div>
       </motion.div>
     </div>
   );
 };
 
-const AspireCard = ({ isInView, delay }: { isInView: boolean; delay: number }) => {
+const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay: number; onOpenModal: (project: ProjectData) => void }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  // Get Aspire project data
+  const aspireProject: ProjectData = data.find(p => p.title === "Aspire") || data[2];
 
   return (
     <div
-      className="w-[310px] h-[100px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105"
+      className="w-[310px] h-[350px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105 cursor-pointer md:cursor-default"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => {
+        // On mobile, clicking the card opens the modal
+        if (window.innerWidth < 768) {
+          onOpenModal(aspireProject);
+        }
+      }}
     >
       <motion.div
         initial={{ y: 100, opacity: 0 }}
@@ -829,30 +879,36 @@ const AspireCard = ({ isInView, delay }: { isInView: boolean; delay: number }) =
         </div>
         
         {/* Read More */}
-        <div className="w-full absolute bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 group-hover:bottom-0 text-right p-6">
-          <Link href="https://aspirebyfilinvest.com/" target="_blank" rel="noopener noreferrer">
-            <motion.div
-              className="relative !text-xs z-50 font-bold text-right cursor-pointer"
-              style={{ color: '#66b3ff' }}
-              whileHover={{ scale: 1.1, color: '#99ccff' }}
-              transition={{ duration: 0.2 }}
+        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6">
+          <motion.div
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent card click from firing
+              if (window.innerWidth < 768) {
+                onOpenModal(aspireProject);
+              } else {
+                window.open("https://aspirebyfilinvest.com/", "_blank", "noopener,noreferrer");
+              }
+            }}
+            className="relative !text-xs z-50 font-bold text-right cursor-pointer"
+            style={{ color: '#66b3ff' }}
+            whileHover={{ scale: 1.1, color: '#99ccff' }}
+            transition={{ duration: 0.2 }}
+          >
+            <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#0088cc] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(0,136,204,1)]">
+              Read More
+            </span>
+            <motion.span
+              className="ml-2 inline-block"
+              animate={{ x: [0, 5, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
             >
-              <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#0088cc] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(0,136,204,1)]">
-                Read More
-              </span>
-              <motion.span
-                className="ml-2 inline-block"
-                animate={{ x: [0, 5, 0] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              >
-                →
-              </motion.span>
-            </motion.div>
-          </Link>
+              →
+            </motion.span>
+          </motion.div>
         </div>
       </motion.div>
     </div>
@@ -888,7 +944,7 @@ export default function BasicCards() {
           My Recent Works
         </p>
         <div className="flex flex-wrap m-auto justify-center gap-14">
-          {data.map((card, index) => (
+          {data.filter(card => card.title === "Doon.ph").map((card, index) => (
             <ImageCard
               key={index}
               card={card}
@@ -900,10 +956,12 @@ export default function BasicCards() {
         <CardWithParticles
           isInView={isInView}
           delay={2 * 0.3}
+          onOpenModal={handleOpenModal}
         />
         <AspireCard
           isInView={isInView}
           delay={3 * 0.3}
+          onOpenModal={handleOpenModal}
         />
       </div>
     </div>
