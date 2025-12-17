@@ -401,14 +401,12 @@ const CardWithParticles = ({ isInView, delay, onOpenModal }: { isInView: boolean
 
   return (
     <div
-      className="w-[310px] h-[350px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105 cursor-pointer md:cursor-default"
+      className="w-[310px] h-[350px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105 cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => {
-        // On mobile, clicking the card opens the modal
-        if (window.innerWidth < 768) {
-          onOpenModal(braveProject);
-        }
+        // Clicking the card opens the modal
+        onOpenModal(braveProject);
       }}
     >
       <motion.div
@@ -685,11 +683,7 @@ const CardWithParticles = ({ isInView, delay, onOpenModal }: { isInView: boolean
           <motion.div
             onClick={(e) => {
               e.stopPropagation(); // Prevent card click from firing
-              if (window.innerWidth < 768) {
-                onOpenModal(braveProject);
-              } else {
-                window.open("https://www.braveconnective.ph/", "_blank", "noopener,noreferrer");
-              }
+              onOpenModal(braveProject);
             }}
             className="relative !text-xs z-50 text-teal-300 font-bold text-right cursor-pointer"
             whileHover={{ scale: 1.1, color: '#5eead4' }}
@@ -1073,14 +1067,12 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
 
   return (
     <div
-      className="w-[310px] h-[350px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105 cursor-pointer md:cursor-default"
+      className="w-[310px] h-[350px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105 cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => {
-        // On mobile, clicking the card opens the modal
-        if (window.innerWidth < 768) {
-          onOpenModal(aspireProject);
-        }
+        // Clicking the card opens the modal
+        onOpenModal(aspireProject);
       }}
     >
       <motion.div
@@ -1274,11 +1266,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
           <motion.div
             onClick={(e) => {
               e.stopPropagation(); // Prevent card click from firing
-              if (window.innerWidth < 768) {
-                onOpenModal(aspireProject);
-              } else {
-                window.open("https://aspirebyfilinvest.com/", "_blank", "noopener,noreferrer");
-              }
+              onOpenModal(aspireProject);
             }}
             className="relative !text-xs z-50 font-bold text-right cursor-pointer"
             style={{ color: '#66b3ff' }}

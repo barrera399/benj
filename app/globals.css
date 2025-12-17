@@ -170,4 +170,13 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
+  
+  /* Ensure modal is visible on mobile */
+  [style*="zIndex: 99999"],
+  [style*="zIndex: 100000"] {
+    -webkit-transform: none !important;
+    transform: none !important;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+  }
 }

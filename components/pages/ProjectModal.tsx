@@ -43,11 +43,13 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
     }
   }, [isOpen])
 
-  if (!project || !mounted) return null
+  if (!project || !mounted) {
+    return null
+  }
 
   const modalContent = (
-    <AnimatePresence>
-      {isOpen && (
+    <AnimatePresence mode="wait">
+      {isOpen && project && (
         <>
           {/* Backdrop */}
           <motion.div
@@ -55,23 +57,49 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9998]"
-            style={{ position: 'fixed' }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+            style={{ 
+              position: 'fixed', 
+              top: 0, 
+              left: 0, 
+              right: 0, 
+              bottom: 0,
+              zIndex: 99998
+            }}
           />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 pointer-events-none"
-            style={{ position: 'fixed' }}
+            className="fixed inset-0 flex items-start md:items-center justify-center p-2 md:p-4 pointer-events-none overflow-y-auto"
+            style={{ 
+              position: 'fixed', 
+              top: 0, 
+              left: 0, 
+              right: 0, 
+              bottom: 0,
+              zIndex: 99999,
+              WebkitOverflowScrolling: 'touch',
+              visibility: 'visible'
+            }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="w-full max-w-4xl max-h-[90vh] bg-black border border-teal-400/30 rounded-2xl overflow-hidden shadow-2xl pointer-events-auto flex flex-col">
+            <div 
+              className="w-full max-w-4xl max-h-[95vh] md:max-h-[90vh] bg-black border border-teal-400/30 rounded-2xl overflow-hidden shadow-2xl pointer-events-auto flex flex-col mt-4 md:mt-0 relative"
+              style={{ 
+                zIndex: 100000,
+                transform: 'translateZ(0)',
+                WebkitTransform: 'translateZ(0)',
+                visibility: 'visible',
+                opacity: 1,
+                display: 'flex'
+              }}
+            >
               {/* Header */}
-              <div className="relative h-64 md:h-80 overflow-hidden">
+              <div className="relative h-32 md:h-48 lg:h-64 overflow-hidden flex-shrink-0">
                 {/* Check if image is a logo (ends with logo filenames) */}
                 {project.image.includes('brave') || project.image.includes('aspire') || project.image.includes('crafted-catalyst') ? (
                   <>
@@ -123,7 +151,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               </div>
 
               {/* Content */}
-              <div className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-thin" style={{
+              <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scrollbar-thin min-h-0" style={{
                 scrollbarWidth: 'thin',
                 scrollbarColor: 'rgba(20, 184, 166, 0.5) transparent'
               }}>
@@ -219,6 +247,10 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
     </AnimatePresence>
   )
 
+  if (typeof window === 'undefined') {
+    return null
+  }
+  
   return createPortal(modalContent, document.body)
 }
 
