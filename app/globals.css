@@ -150,3 +150,24 @@
   opacity: 0 !important;
   display: none !important;
 }
+
+/* Prevent hover flickering on mobile/touch devices */
+@media (hover: none) and (pointer: coarse) {
+  *:hover {
+    transform: none !important;
+  }
+  
+  .group:hover * {
+    transform: none !important;
+  }
+}
+
+/* Optimize animations for mobile */
+@media (max-width: 768px) {
+  * {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}

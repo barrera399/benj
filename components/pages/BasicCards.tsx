@@ -102,14 +102,25 @@ const ImageCard = ({
 }) => {
   const [isCardHovered, setIsCardHovered] = useState(false);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <div
-      className="w-[310px] h-[350px] rounded-lg sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105 cursor-pointer md:cursor-default"
-      onMouseEnter={() => setIsCardHovered(true)}
-      onMouseLeave={() => setIsCardHovered(false)}
+      className="w-[310px] h-[350px] rounded-lg sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 md:hover:scale-105 cursor-pointer md:cursor-default"
+      onMouseEnter={() => !isMobile && setIsCardHovered(true)}
+      onMouseLeave={() => !isMobile && setIsCardHovered(false)}
       onClick={() => {
         // On mobile, clicking the card opens the modal
-        if (window.innerWidth < 768) {
+        if (isMobile) {
           onOpenModal(card);
         }
       }}
@@ -127,13 +138,13 @@ const ImageCard = ({
         <Image
           width={1000}
           height={1000}
-          className="absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
+          className="absolute inset-0 w-full h-full object-cover transition-all duration-300 md:group-hover:scale-110"
           src="/doon-cover.png"
           alt="Doon Cover"
         />
         
         {/* Green Overlay */}
-        <div className="absolute inset-0 bg-[#afed00]/25 group-hover:bg-[#afed00]/35 transition-all duration-300" />
+        <div className="absolute inset-0 bg-[#afed00]/25 md:group-hover:bg-[#afed00]/35 transition-all duration-300" />
         
         {/* Gradient Overlay - Different from third card */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#7ab800]/30 via-[#afed00]/15 to-transparent" />
@@ -147,16 +158,16 @@ const ImageCard = ({
           backgroundSize: '40px 40px',
         }} />
         
-        {/* Radial Scan Effect - Different from linear scan */}
+        {/* Radial Scan Effect - Different from linear scan - Disabled on mobile */}
         <motion.div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none hidden md:block"
           style={{
             background: 'radial-gradient(circle, transparent 0%, rgba(175, 237, 0, 0.15) 50%, transparent 100%)',
           }}
-          animate={{
+          animate={!isMobile ? {
             scale: [0.8, 1.5, 0.8],
             opacity: [0, 0.5, 0],
-          }}
+          } : {}}
           transition={{
             duration: 4,
             repeat: Infinity,
@@ -189,17 +200,17 @@ const ImageCard = ({
           }}
         />
         
-        {/* Floating Orbs - Different movement pattern */}
+        {/* Floating Orbs - Different movement pattern - Disabled on mobile */}
         <motion.div
-          className="absolute top-16 right-16 w-36 h-36 rounded-full blur-3xl"
+          className="absolute top-16 right-16 w-36 h-36 rounded-full blur-3xl hidden md:block"
           style={{ backgroundColor: 'rgba(175, 237, 0, 0.25)' }}
-          animate={{
+          animate={!isMobile ? {
             scale: [1, 1.4, 1],
             opacity: [0.4, 0.7, 0.4],
             x: [0, 30, -30, 0],
             y: [0, -30, 30, 0],
             rotate: [0, 180, 360],
-          }}
+          } : {}}
           transition={{
             duration: 6,
             repeat: Infinity,
@@ -207,15 +218,15 @@ const ImageCard = ({
           }}
         />
         <motion.div
-          className="absolute bottom-24 left-16 w-28 h-28 rounded-full blur-2xl"
+          className="absolute bottom-24 left-16 w-28 h-28 rounded-full blur-2xl hidden md:block"
           style={{ backgroundColor: 'rgba(207, 255, 51, 0.3)' }}
-          animate={{
+          animate={!isMobile ? {
             scale: [1, 1.5, 1],
             opacity: [0.3, 0.6, 0.3],
             x: [0, -25, 25, 0],
             y: [0, 25, -25, 0],
             rotate: [0, -180, -360],
-          }}
+          } : {}}
           transition={{
             duration: 7,
             repeat: Infinity,
@@ -224,19 +235,22 @@ const ImageCard = ({
           }}
         />
         
-        {/* Energy Wave Effect - Different from shine */}
+        {/* Energy Wave Effect - Different from shine - Static on mobile */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: 'radial-gradient(ellipse at center, rgba(175, 237, 0, 0.3) 0%, transparent 70%)',
           }}
-          animate={{
+          animate={!isMobile ? {
             scale: isCardHovered ? [1, 1.3, 1] : 1,
             opacity: isCardHovered ? [0.3, 0.6, 0.3] : 0.2,
+          } : {
+            opacity: 0.2,
+            scale: 1,
           }}
           transition={{
             duration: 2,
-            repeat: isCardHovered ? Infinity : 0,
+            repeat: !isMobile && isCardHovered ? Infinity : 0,
             ease: 'easeInOut',
           }}
         />
