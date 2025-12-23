@@ -108,7 +108,7 @@ export default function About() {
                   and rapid learning, I've advanced to a <span className="text-teal-400 font-semibold">mid-senior level developer</span>.
                 </motion.p>
 
-                <motion.p
+                {/* <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={shouldShow ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: 0.5 }}
@@ -118,7 +118,7 @@ export default function About() {
                   I've successfully developed and launched a comprehensive car rental CRM system that facilitates seamless interactions 
                   between hosts and guests. This system has driven <span className="text-teal-400 font-semibold">substantial revenue growth</span>, 
                   demonstrating its value as a reliable and profitable solution.
-                </motion.p>
+                </motion.p> */}
 
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
