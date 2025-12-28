@@ -1264,22 +1264,12 @@ const FuturaCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
               alt="Futura Logo"
               width={120}
               height={120}
-              className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain drop-shadow-[0_0_20px_rgba(239,68,68,0.6)]"
+              className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain ml-8 drop-shadow-[0_0_20px_rgba(239,68,68,0.6)]"
             />
           </motion.div>
           
           {/* Title */}
-          <motion.p
-            className="!text-base sm:!text-xl md:!text-3xl font-bold text-white text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: delay + 0.5, duration: 0.8 }}
-            style={{
-              textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(239, 68, 68, 0.4)',
-            }}
-          >
-            Futura
-          </motion.p>
+       
         </div>
         
         {/* Description Panel */}
@@ -1525,17 +1515,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
           </motion.div>
           
           {/* Title */}
-          <motion.p
-            className="!text-base sm:!text-xl md:!text-3xl font-bold text-white text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: delay + 0.5, duration: 0.8 }}
-            style={{
-              textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(0, 136, 204, 0.4)',
-            }}
-          >
-            Aspire
-          </motion.p>
+        
         </div>
         
         {/* Description Panel */}
