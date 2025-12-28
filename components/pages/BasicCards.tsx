@@ -112,6 +112,25 @@ The multi-tenant architecture ensures secure isolation between different clients
       "Urban professional-focused homes"
     ],
   },
+  {
+    title: "Futura",
+    description: "Your family's bright future begins here. A smart-value real estate platform offering homes designed for independence, featuring property search, virtual tours, and comprehensive property management solutions.",
+    image: "/futura-cover.jpg",
+    url: "https://futurabyfilinvest.com/",
+    longDescription: `Futura by Filinvest is a comprehensive real estate platform designed to help families take their first step towards independence. The platform offers smart-value homes with advanced property search capabilities, virtual tour experiences, and seamless property management tools. Built as a twin project to Aspire, Futura shares similar architecture and tech stack while maintaining its unique identity focused on family-oriented living and smart-value propositions.`,
+    techStack: ["Next.js", "TypeScript", "React", "Payload CMS"],
+    highlights: ["Real Estate Platform", "Smart-Value Homes"],
+    features: [
+      "Advanced property search with filters",
+      "Virtual tour functionality",
+      "Property type and location filtering",
+      "Price range search capabilities",
+      "Family-oriented home designs",
+      "Smart-value proposition focus",
+      "Comprehensive property management",
+      "Integrated payment solutions"
+    ],
+  },
 ];
 
 const ImageCard = ({ 
@@ -1059,11 +1078,275 @@ const CraftedCatalystCard = ({ isInView, delay, onOpenModal }: { isInView: boole
   );
 };
 
+const FuturaCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay: number; onOpenModal: (project: ProjectData) => void }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Get Futura project data
+  const futuraProject: ProjectData = data.find(p => p.title === "Futura") || data[3];
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return (
+    <div
+      className="w-[310px] h-[350px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 hover:scale-105 cursor-pointer"
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
+      onClick={() => {
+        // Clicking the card opens the modal
+        onOpenModal(futuraProject);
+      }}
+    >
+      <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        animate={isInView ? { y: 0, opacity: 1 } : {}}
+        transition={{
+          duration: 2,
+          delay: delay,
+        }}
+        className="relative h-full w-full overflow-hidden rounded-lg"
+      >
+        {/* Cover Image Background */}
+        <Image
+          src="/futura-cover.jpg"
+          alt="Futura Cover"
+          fill
+          className="absolute inset-0 w-full h-full object-cover"
+          priority
+        />
+        
+        {/* Red Overlay */}
+        <div className="absolute inset-0 bg-[#dc2626]/45 group-hover:bg-[#dc2626]/55 transition-all duration-300" />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#dc2626]/35 via-[#991b1b]/35 to-[#7f1d1d]/35" />
+        
+        {/* Animated Grid Pattern */}
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: `
+            linear-gradient(rgba(220, 38, 38, 0.4) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(220, 38, 38, 0.4) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+        }} />
+        
+        {/* Animated Scan Line */}
+        {!isMobile && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'linear-gradient(to bottom, transparent 0%, rgba(220, 38, 38, 0.2) 50%, transparent 100%)',
+            }}
+            animate={{
+              y: ['-100%', '200%'],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+        )}
+        
+        {/* Glowing Border with Animation */}
+        <motion.div
+          className="absolute inset-0 rounded-lg border-2"
+          style={{
+            borderColor: isHovered ? '#ef4444' : 'rgba(220, 38, 38, 0.6)',
+            boxShadow: isHovered 
+              ? '0 0 30px rgba(239, 68, 68, 0.8), inset 0 0 30px rgba(239, 68, 68, 0.1)'
+              : '0 0 15px rgba(220, 38, 38, 0.4)',
+          }}
+          animate={!isMobile ? {
+            boxShadow: isHovered 
+              ? [
+                  '0 0 30px rgba(239, 68, 68, 0.8), inset 0 0 30px rgba(239, 68, 68, 0.1)',
+                  '0 0 40px rgba(239, 68, 68, 1), inset 0 0 30px rgba(239, 68, 68, 0.2)',
+                  '0 0 30px rgba(239, 68, 68, 0.8), inset 0 0 30px rgba(239, 68, 68, 0.1)',
+                ]
+              : '0 0 15px rgba(220, 38, 38, 0.4)',
+          } : {}}
+          transition={{
+            duration: 2,
+            repeat: !isMobile && isHovered ? Infinity : 0,
+            ease: 'easeInOut',
+          }}
+        />
+        
+        {/* Floating Orbs */}
+        {!isMobile && (
+          <>
+            <motion.div
+              className="absolute top-10 right-10 w-32 h-32 rounded-full blur-2xl"
+              style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)' }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+                x: [0, 20, 0],
+                y: [0, -20, 0],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute bottom-20 left-10 w-24 h-24 rounded-full blur-xl"
+              style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.2, 0.4, 0.2],
+                x: [0, -15, 0],
+                y: [0, 15, 0],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: 1,
+              }}
+            />
+          </>
+        )}
+        
+        {/* Shine Effect on Hover */}
+        {!isMobile && (
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 pointer-events-none"
+            animate={{
+              x: isHovered ? ["-200%", "200%"] : "-200%",
+              opacity: isHovered ? [0, 0.3, 0] : 0,
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: isHovered ? Infinity : 0,
+              repeatDelay: 2,
+            }}
+          />
+        )}
+        
+        {/* Content */}
+        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center">
+          {/* Centered Logo */}
+          <motion.div
+            className="relative mb-4"
+            initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+            animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
+            transition={{ delay: delay + 0.3, duration: 0.8, type: "spring" }}
+            whileHover={!isMobile ? { scale: 1.1, rotate: 5 } : {}}
+          >
+            <motion.div
+              className="absolute inset-0 blur-2xl rounded-full"
+              style={{ backgroundColor: 'rgba(239, 68, 68, 0.3)' }}
+              animate={!isMobile ? {
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+              } : {
+                scale: 1,
+                opacity: 0.3,
+              }}
+              transition={{
+                duration: 3,
+                repeat: !isMobile ? Infinity : 0,
+                ease: "easeInOut",
+              }}
+            />
+            <Image
+              src="/futura-icon.png"
+              alt="Futura Logo"
+              width={120}
+              height={120}
+              className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain drop-shadow-[0_0_20px_rgba(239,68,68,0.6)]"
+            />
+          </motion.div>
+          
+          {/* Title */}
+          <motion.p
+            className="!text-base sm:!text-xl md:!text-3xl font-bold text-white text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: delay + 0.5, duration: 0.8 }}
+            style={{
+              textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(239, 68, 68, 0.4)',
+            }}
+          >
+            Futura
+          </motion.p>
+        </div>
+        
+        {/* Description Panel */}
+        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 group-hover:left-0 w-full h-full flex items-center p-6 !font-normal backdrop-blur-md border-t"
+          style={{ 
+            backgroundColor: 'rgba(127, 29, 29, 0.8)',
+            borderColor: 'rgba(239, 68, 68, 0.5)',
+          }}
+        >
+          <motion.p
+            className="!text-sm text-white"
+            initial={{ opacity: 0, x: 20 }}
+            whileHover={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            Your family's bright future begins here. A smart-value real estate platform offering homes designed for independence, featuring property search, virtual tours, and comprehensive property management solutions.
+          </motion.p>
+        </div>
+        
+        {/* Read More */}
+        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6">
+          <motion.div
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent card click from firing
+              onOpenModal(futuraProject);
+            }}
+            className="relative !text-xs z-50 font-bold text-right cursor-pointer"
+            style={{ color: '#fca5a5' }}
+            whileHover={!isMobile ? { scale: 1.1, color: '#fecaca' } : {}}
+            transition={{ duration: 0.2 }}
+          >
+            <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#ef4444] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(239,68,68,1)]">
+              Read More
+            </span>
+            <motion.span
+              className="ml-2 inline-block"
+              animate={!isMobile ? { x: [0, 5, 0] } : {}}
+              transition={{
+                duration: 1.5,
+                repeat: !isMobile ? Infinity : 0,
+                ease: 'easeInOut',
+              }}
+            >
+              →
+            </motion.span>
+          </motion.div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
 const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay: number; onOpenModal: (project: ProjectData) => void }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Get Aspire project data
   const aspireProject: ProjectData = data.find(p => p.title === "Aspire") || data[2];
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <div
@@ -1111,6 +1394,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
         }} />
         
         {/* Animated Scan Line */}
+        {!isMobile && (
         <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -1125,6 +1409,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
             ease: 'linear',
           }}
         />
+        )}
         
         {/* Glowing Border with Animation */}
         <motion.div
@@ -1135,7 +1420,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
               ? '0 0 30px rgba(0, 136, 204, 0.8), inset 0 0 30px rgba(0, 136, 204, 0.1)'
               : '0 0 15px rgba(0, 85, 135, 0.4)',
           }}
-          animate={{
+          animate={!isMobile ? {
             boxShadow: isHovered 
               ? [
                   '0 0 30px rgba(0, 136, 204, 0.8), inset 0 0 30px rgba(0, 136, 204, 0.1)',
@@ -1143,15 +1428,17 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
                   '0 0 30px rgba(0, 136, 204, 0.8), inset 0 0 30px rgba(0, 136, 204, 0.1)',
                 ]
               : '0 0 15px rgba(0, 85, 135, 0.4)',
-          }}
+          } : {}}
           transition={{
             duration: 2,
-            repeat: isHovered ? Infinity : 0,
+            repeat: !isMobile && isHovered ? Infinity : 0,
             ease: 'easeInOut',
           }}
         />
         
         {/* Floating Orbs */}
+        {!isMobile && (
+          <>
         <motion.div
           className="absolute top-10 right-10 w-32 h-32 rounded-full blur-2xl"
           style={{ backgroundColor: 'rgba(0, 136, 204, 0.15)' }}
@@ -1183,8 +1470,11 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
             delay: 1,
           }}
         />
+          </>
+        )}
         
         {/* Shine Effect on Hover */}
+        {!isMobile && (
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 pointer-events-none"
           animate={{
@@ -1197,6 +1487,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
             repeatDelay: 2,
           }}
         />
+        )}
         
         {/* Content */}
         <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center">
@@ -1211,13 +1502,16 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
             <motion.div
               className="absolute inset-0 blur-2xl rounded-full"
               style={{ backgroundColor: 'rgba(0, 136, 204, 0.3)' }}
-              animate={{
+              animate={!isMobile ? {
                 scale: [1, 1.2, 1],
                 opacity: [0.3, 0.5, 0.3],
+              } : {
+                scale: 1,
+                opacity: 0.3,
               }}
               transition={{
                 duration: 3,
-                repeat: Infinity,
+                repeat: !isMobile ? Infinity : 0,
                 ease: "easeInOut",
               }}
             />
@@ -1270,7 +1564,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
             }}
             className="relative !text-xs z-50 font-bold text-right cursor-pointer"
             style={{ color: '#66b3ff' }}
-            whileHover={{ scale: 1.1, color: '#99ccff' }}
+            whileHover={!isMobile ? { scale: 1.1, color: '#99ccff' } : {}}
             transition={{ duration: 0.2 }}
           >
             <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#0088cc] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(0,136,204,1)]">
@@ -1278,10 +1572,10 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
             </span>
             <motion.span
               className="ml-2 inline-block"
-              animate={{ x: [0, 5, 0] }}
+              animate={!isMobile ? { x: [0, 5, 0] } : {}}
               transition={{
                 duration: 1.5,
-                repeat: Infinity,
+                repeat: !isMobile ? Infinity : 0,
                 ease: 'easeInOut',
               }}
             >
@@ -1328,24 +1622,24 @@ export default function BasicCards() {
 
   return (
     <>
-      <div
-        ref={cardsRef}
-        className="flex z-100 flex-col m-auto max-w-[1400px] w-full px-6 md:px-14 py-0 md:py-20 pb-20"
-      >
-        <p className="text-4xl font-bold text-center text-white my-20 ">
+    <div
+      ref={cardsRef}
+      className="flex z-100 flex-col m-auto max-w-[1400px] w-full px-6 md:px-14 py-0 md:py-20 pb-20"
+    >
+      <p className="text-4xl font-bold text-center text-white my-20 ">
           My Recent Works
-        </p>
-        <div className="flex flex-wrap m-auto justify-center gap-14">
+      </p>
+      <div className="flex flex-wrap m-auto justify-center gap-14">
           {data.filter(card => card.title === "Doon.ph").map((card, index) => (
-            <ImageCard
-              key={index}
-              card={card}
-              index={index}
-              isInView={isInView}
+          <ImageCard
+            key={index}
+            card={card}
+            index={index}
+            isInView={isInView}
               onOpenModal={handleOpenModal}
               shouldShow={shouldShow}
-            />
-          ))}
+          />
+        ))}
         <CardWithParticles
           isInView={shouldShow}
           delay={1 * 0.3}
@@ -1356,9 +1650,14 @@ export default function BasicCards() {
           delay={2 * 0.3}
           onOpenModal={handleOpenModal}
         />
-        <CraftedCatalystCard
+        <FuturaCard
           isInView={shouldShow}
           delay={3 * 0.3}
+          onOpenModal={handleOpenModal}
+        />
+        <CraftedCatalystCard
+          isInView={shouldShow}
+          delay={4 * 0.3}
           onOpenModal={handleOpenModal}
         />
       </div>

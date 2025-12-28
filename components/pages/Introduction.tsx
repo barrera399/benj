@@ -377,7 +377,7 @@ export default function Introduction() {
             ))}
           </motion.div>
         </div>
-      </motion.div>
+      </motion.div> 
 
       {/* Scroll Indicator */}
       {/* <motion.div

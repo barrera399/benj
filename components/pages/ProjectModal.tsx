@@ -101,7 +101,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               {/* Header */}
               <div className="relative h-32 md:h-48 lg:h-64 overflow-hidden flex-shrink-0">
                 {/* Check if image is a logo (ends with logo filenames) */}
-                {project.image.includes('brave') || project.image.includes('aspire') || project.image.includes('crafted-catalyst') ? (
+                {project.image.includes('brave') || project.image.includes('aspire') || project.image.includes('crafted-catalyst') || project.image.includes('futura-icon') ? (
                   <>
                     {/* Gradient background for logos */}
                     <div className={`absolute inset-0 ${
@@ -109,6 +109,8 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         ? 'bg-gradient-to-br from-teal-900 via-teal-800 to-teal-900' 
                         : project.image.includes('crafted-catalyst')
                         ? 'bg-gradient-to-br from-teal-500 via-blue-500 to-purple-600'
+                        : project.image.includes('futura-icon')
+                        ? 'bg-gradient-to-br from-red-900 via-red-800 to-red-900'
                         : 'bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900'
                     }`} />
                     {/* Centered logo */}
