@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaDownload } from "react-icons/fa";
+import { FaDownload, FaGithub } from "react-icons/fa";
 import LayoutSmoothScroll from "@/components/globals/LayoutSmoothScroll";
 
 const roles = [
@@ -280,49 +280,89 @@ export default function Introduction() {
             </div>
           </motion.div>
 
-          {/* Stats */}
+          {/* Stats - Compact Badge Design */}
           <motion.div
             variants={itemVariants}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="flex flex-wrap gap-6 md:gap-8 mb-8"
+            className="w-full mb-12"
           >
-            {[
-              { label: "Projects", value: "20+", icon: "🚀" },
-              { label: "Experience", value: "5+", icon: "💼" },
-              { label: "Technologies", value: "20+", icon: "⚡" },
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                className="text-left"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1 + index * 0.2, duration: 0.5 }}
-                whileHover={{ scale: 1.1 }}
-              >
-                <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-3xl md:text-4xl font-bold text-teal-400 mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-sm md:text-base text-gray-400">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
+            <div className="flex flex-wrap items-center gap-3 md:gap-4">
+              {[
+                { label: "Projects", value: "20+" },
+                { label: "Experience", value: "5+" },
+                { label: "Technologies", value: "30+" },
+              ].map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  className="group relative inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-800/60 backdrop-blur-sm border border-teal-400/30 hover:border-teal-400/60 transition-all duration-300"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1 + index * 0.15, duration: 0.5 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: "0 0 20px rgba(20, 184, 166, 0.3)"
+                  }}
+                >
+                  {/* Animated glow on hover */}
+                  <motion.div
+                    className="absolute inset-0 rounded-full bg-teal-400/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300"
+                    initial={false}
+                  />
+                  
+                  {/* Value */}
+                  <motion.span
+                    className="text-xl md:text-2xl font-bold text-teal-400 relative z-10"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    {stat.value}
+                  </motion.span>
+                  
+                  {/* Divider */}
+                  <div className="w-px h-4 bg-teal-400/40 group-hover:bg-teal-400/60 transition-colors duration-300" />
+                  
+                  {/* Label */}
+                  <span className="text-xs md:text-sm text-gray-300 font-medium relative z-10 group-hover:text-gray-200 transition-colors duration-300">
+                    {stat.label}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
 
-          {/* Resume Download Button */}
+          {/* Action Buttons */}
           <motion.div
             variants={itemVariants}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-12"
+            className="flex flex-wrap gap-4 mb-12"
           >
+            {/* Resume Download Button */}
             <Link
               href="/Joseph Benjamin Barrera - Resume.pdf"
               target="_blank"
-              className="inline-flex items-center gap-3 px-6 py-3 bg-teal-400 hover:bg-teal-500 text-black font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-teal-400/50 hover:scale-105"
+              className="group relative inline-flex items-center gap-3 px-6 py-3 bg-teal-400 hover:bg-teal-500 text-black font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-teal-400/50 overflow-hidden"
             >
-              <FaDownload className="w-5 h-5" />
-              <span>Resume</span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                initial={false}
+              />
+              <FaDownload className="w-5 h-5 relative z-10" />
+              <span className="relative z-10">Resume</span>
+            </Link>
+
+            {/* GitHub Link Button */}
+            <Link
+              href="https://github.com/Norlant1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex items-center gap-3 px-6 py-3 bg-gray-800/80 hover:bg-gray-700/80 text-white font-semibold rounded-lg transition-all duration-300 border border-gray-700 hover:border-teal-400/50 hover:shadow-lg hover:shadow-teal-400/20 overflow-hidden"
+            >
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                initial={false}
+              />
+              <FaGithub className="w-5 h-5 relative z-10 group-hover:text-teal-400 transition-colors duration-300" />
+              <span className="relative z-10 group-hover:text-teal-400 transition-colors duration-300">GitHub</span>
             </Link>
           </motion.div>
         </motion.div>
