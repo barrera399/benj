@@ -290,7 +290,7 @@ export default function Introduction() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <span className="relative inline-block">
-                <span className="absolute inset-0 text-teal-400 blur-sm opacity-75">
+                <span className={`absolute inset-0 text-teal-400 blur-sm opacity-75 ${isMobile ? 'hidden' : ''}`}>
                   Joseph
                 </span>
                 <span className="relative text-white">Joseph</span>
