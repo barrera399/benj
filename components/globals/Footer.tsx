@@ -30,7 +30,7 @@ export default function Footer() {
   // Split footerLinks into columns with max 5 items per column
 
   return (
-    <div className="content z-[100] flex flex-col justify-center px-14 gap-24 h-[150px] py-10 border-t border-solid border-[#86868b] !mt-20">
+    <div className="content relative z-[100] flex flex-col justify-center px-14 gap-24 h-[150px] py-10 border-t border-solid border-[#86868b] !mt-20" style={{ isolation: 'isolate' }}>
       {/* <div className="flex flex-row w-full justify-between">
         <div className="flex flex-col gap-4">
           {logo && logo.url && (
@@ -64,7 +64,7 @@ export default function Footer() {
           ))}
         </div>
       </div> */}
-      <div className="w-full flex flex-col md:flex-row justify-between items-center gap-6 z-100">
+      <div className="w-full flex flex-col md:flex-row justify-between items-center gap-6 relative z-[1]">
         <div className="text-white text-base text-center md:text-left">
           © Joseph 2024
         </div>

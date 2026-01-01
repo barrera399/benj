@@ -33,6 +33,16 @@ export default function Introduction() {
   const [currentRole, setCurrentRole] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const current = roles[currentRole];
@@ -82,9 +92,17 @@ export default function Introduction() {
   };
 
   return (
-    <div className="relative z-100 w-full text-white overflow-hidden">
+    <div className="relative z-[1] w-full text-white overflow-hidden">
       {/* Animated Grid Background */}
-      <div className="fixed inset-0 opacity-10 pointer-events-none z-0">
+      <div 
+        className="fixed inset-0 opacity-10 pointer-events-none z-[-1]" 
+        style={{ 
+          isolation: 'isolate',
+          transform: 'translateZ(0)',
+          willChange: 'auto',
+          backfaceVisibility: 'hidden',
+        }}
+      >
         <motion.div
           className="absolute inset-0"
           style={{
@@ -93,12 +111,15 @@ export default function Introduction() {
               linear-gradient(90deg, rgba(20, 184, 166, 0.1) 1px, transparent 1px)
             `,
             backgroundSize: "50px 50px",
+            willChange: isMobile ? 'auto' : 'transform',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
           }}
-          animate={{
+          animate={isMobile ? {} : {
             x: [0, 50],
             y: [0, 50],
           }}
-          transition={{
+          transition={isMobile ? {} : {
             duration: 20,
             repeat: Infinity,
             ease: "linear",
@@ -106,38 +127,54 @@ export default function Introduction() {
         />
       </div>
 
-      {/* Floating Orbs */}
-      <motion.div
-        className="fixed top-20 left-10 w-72 h-72 bg-teal-400/20 rounded-full blur-3xl pointer-events-none z-0"
-        animate={{
-          x: [0, 100, 0],
-          y: [0, 50, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="fixed bottom-20 right-10 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none z-0"
-        animate={{
-          x: [0, -80, 0],
-          y: [0, -60, 0],
-          scale: [1, 0.8, 1],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
+      {/* Floating Orbs - Hidden on mobile to prevent interference */}
+      {!isMobile && (
+        <>
+          <motion.div
+            className="fixed top-20 left-10 w-72 h-72 bg-teal-400/20 rounded-full blur-3xl pointer-events-none z-[-1]"
+            style={{ 
+              isolation: 'isolate',
+              transform: 'translateZ(0)',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+            }}
+            animate={{
+              x: [0, 100, 0],
+              y: [0, 50, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div
+            className="fixed bottom-20 right-10 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none z-[-1]"
+            style={{ 
+              isolation: 'isolate',
+              transform: 'translateZ(0)',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+            }}
+            animate={{
+              x: [0, -80, 0],
+              y: [0, -60, 0],
+              scale: [1, 0.8, 1],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </>
+      )}
 
       {/* Scrollable Content with Smooth Scroll */}
 
       {/* Split Screen Layout */}
-      <div className="relative z-10 w-full flex flex-col lg:flex-row min-h-screen">
+      <div className="relative z-[10] w-full flex flex-col lg:flex-row min-h-screen" style={{ isolation: 'isolate' }}>
         {/* Left Side - Image Section */}
         <motion.div
           className="w-full lg:w-1/2 flex items-center justify-center p-8 mt-20 md:mt-0 md:p-12 lg:p-16 relative"
@@ -370,14 +407,15 @@ export default function Introduction() {
 
       {/* Infinite Tech Stack Carousel */}
       <motion.div
-        className="relative z-20 py-8 overflow-hidden w-full"
+        className="relative z-[20] py-8 overflow-hidden w-full"
+        style={{ isolation: 'isolate' }}
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.8 }}
       >
         {/* Gradient Fades */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-30 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-30 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-[30] pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-[30] pointer-events-none" />
 
         <div className="relative flex">
           <motion.div

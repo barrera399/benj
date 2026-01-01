@@ -164,11 +164,45 @@
 
 /* Optimize animations for mobile */
 @media (max-width: 768px) {
-  * {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+  /* Ensure content is always visible and clickable */
+  body > *:not([class*="fixed"]) {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Fixed backgrounds should be behind everything */
+  [class*="fixed"][class*="inset-0"],
+  [class*="fixed"][class*="z-0"],
+  [class*="fixed"][class*="z-[-1]"] {
+    z-index: -1 !important;
+    pointer-events: none !important;
+    isolation: isolate;
+  }
+  
+  /* Ensure all content sections are above backgrounds */
+  section,
+  main,
+  [class*="relative"]:not([class*="fixed"]) {
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+  }
+  
+  /* Ensure buttons and links are always clickable */
+  button,
+  a,
+  [role="button"],
+  [onclick] {
+    position: relative;
+    z-index: 10 !important;
+    pointer-events: auto !important;
+    isolation: isolate;
+  }
+  
+  /* Ensure text content is always visible */
+  p, h1, h2, h3, h4, h5, h6, span, div[class*="text"] {
+    position: relative;
+    z-index: 1;
   }
   
   /* Ensure modal is visible on mobile */
@@ -178,5 +212,25 @@
     transform: none !important;
     -webkit-backface-visibility: visible !important;
     backface-visibility: visible !important;
+  }
+  
+  /* Prevent background effects from interfering with content */
+  [class*="fixed"][class*="blur"]:not([class*="z-[100"]):not([class*="z-[1000"]) {
+    z-index: -1 !important;
+    pointer-events: none !important;
+  }
+  
+  /* Disable continuous animations on mobile for performance */
+  [class*="animate-"]:not([class*="hover"]) {
+    animation-play-state: running;
+  }
+  
+  /* Ensure footer is always visible */
+  footer,
+  [class*="Footer"],
+  [class*="footer"] {
+    position: relative;
+    z-index: 100 !important;
+    isolation: isolate;
   }
 }

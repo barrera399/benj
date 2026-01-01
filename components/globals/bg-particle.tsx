@@ -9,6 +9,17 @@ import { loadSlim } from '@tsparticles/slim' // if you are going to use `loadSli
 
 export const ParticlesBackground = () => {
   const [init, setInit] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // this should be run only once per application lifetime
   useEffect(() => {
@@ -25,9 +36,22 @@ export const ParticlesBackground = () => {
     })
   }, [])
 
+  // Don't render on mobile to prevent interference
+  if (isMobile) {
+    return null
+  }
+
   return (
     init && (
-      <div className="fixed inset-0 z-0">
+      <div 
+        className="fixed inset-0 z-[-1] pointer-events-none" 
+        style={{ 
+          isolation: 'isolate',
+          transform: 'translateZ(0)',
+          willChange: 'auto',
+          backfaceVisibility: 'hidden',
+        }}
+      >
         <Particles
           id="tsparticles"
           className="w-full h-full"
@@ -37,15 +61,15 @@ export const ParticlesBackground = () => {
               value: '#000000',
             },
           },
-          fpsLimit: 120,
+          fpsLimit: 60,
           interactivity: {
             events: {
               onClick: {
-                enable: true,
+                enable: false,
                 mode: 'push',
               },
               onHover: {
-                enable: true,
+                enable: false,
                 mode: 'grab',
               },
             },
