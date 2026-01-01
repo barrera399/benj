@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { RiInstagramLine } from "react-icons/ri";
-import { FaFacebook, FaGithub } from "react-icons/fa";
+import { FaFacebook, FaGithub, FaEnvelope } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 
 // Upwork Icon Component
 const UpworkIcon = ({ className }: { className?: string }) => (
@@ -63,15 +64,37 @@ export default function Footer() {
           ))}
         </div>
       </div> */}
-      <div className="w-full flex flex-row justify-between z-100">
-        <div className="text-white text-base w-full text-center">
+      <div className="w-full flex flex-col md:flex-row justify-between items-center gap-6 z-100">
+        <div className="text-white text-base text-center md:text-left">
           © Joseph 2024
         </div>
 
-        <div className="flex flex-row gap-7 md:absolute">
+        {/* Contact Information */}
+        <div className="flex flex-row items-center gap-4 text-white text-sm">
+          <Link 
+            href="mailto:jobenbarrera@gmail.com" 
+            className="flex items-center gap-2 hover:text-teal-400 transition-colors duration-300"
+          >
+            <FaEnvelope className="h-5 w-5" />
+            <span className="hidden sm:inline">jobenbarrera@gmail.com</span>
+            <span className="sm:hidden">Email</span>
+          </Link>
+          <Link 
+            href="https://wa.me/639974492608" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 hover:text-teal-400 transition-colors duration-300"
+          >
+            <FaWhatsapp className="h-5 w-5" />
+            <span className="hidden sm:inline">+639974492608</span>
+            <span className="sm:hidden">WhatsApp</span>
+          </Link>
+        </div>
+
+        <div className="flex flex-row gap-7">
           {Socials.map(({ icon: Icon, name, link }, index) => (
-            <Link href={link} key={index}>
-              <Icon key={index} className="text-white h-6 w-6 cursor-pointer" />
+            <Link href={link} key={index} target="_blank" rel="noopener noreferrer">
+              <Icon key={index} className="text-white h-6 w-6 cursor-pointer hover:text-teal-400 transition-colors duration-300" />
             </Link>
           ))}
         </div>
