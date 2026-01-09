@@ -170,8 +170,8 @@
     z-index: 1;
   }
   
-  /* Fixed backgrounds should be behind everything */
-  [class*="fixed"][class*="inset-0"],
+  /* Fixed backgrounds should be behind everything - but exclude modals */
+  [class*="fixed"][class*="inset-0"]:not(.project-modal-backdrop):not(.project-modal-container):not(.project-modal-content),
   [class*="fixed"][class*="z-0"],
   [class*="fixed"][class*="z-[-1]"] {
     z-index: -1 !important;
@@ -205,13 +205,48 @@
     z-index: 1;
   }
   
-  /* Ensure modal is visible on mobile */
-  [style*="zIndex: 99999"],
-  [style*="zIndex: 100000"] {
+  /* Modal styling - MUST be above other rules */
+  .project-modal-backdrop,
+  [data-modal="backdrop"] {
+    z-index: 99998 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+  }
+  
+  .project-modal-container,
+  [data-modal="container"] {
+    z-index: 99999 !important;
+    pointer-events: none !important; /* Container allows clicks through to backdrop */
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: flex !important;
     -webkit-transform: none !important;
     transform: none !important;
     -webkit-backface-visibility: visible !important;
     backface-visibility: visible !important;
+  }
+  
+  .project-modal-content,
+  [data-modal="content"] {
+    z-index: 100000 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: flex !important;
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+  }
+  
+  /* Legacy support for style-based selectors */
+  [style*="zIndex: 99998"]:not([class*="project-modal"]),
+  [style*="zIndex: 99999"]:not([class*="project-modal"]),
+  [style*="zIndex: 100000"]:not([class*="project-modal"]) {
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   /* Prevent background effects from interfering with content */

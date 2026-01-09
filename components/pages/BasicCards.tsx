@@ -162,15 +162,14 @@ const ImageCard = ({
 
   return (
     <div
-      className="w-[310px] h-[350px] rounded-lg sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 md:hover:scale-105 cursor-pointer md:cursor-default"
+      className="w-[310px] h-[350px] rounded-lg sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 md:hover:scale-105 cursor-pointer"
       onMouseEnter={() => !isMobile && setIsCardHovered(true)}
       onMouseLeave={() => !isMobile && setIsCardHovered(false)}
       onClick={() => {
-        // On mobile, clicking the card opens the modal
-        if (isMobile) {
-          onOpenModal(card);
-        }
+        // Always open modal on mobile; on desktop, modal opens via "Read More" button
+        onOpenModal(card);
       }}
+      style={{ touchAction: 'manipulation' }}
     >
       <motion.div
         initial={{ y: 100, opacity: 0 }}
@@ -303,14 +302,14 @@ const ImageCard = ({
         />
         
         {/* Content */}
-        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center">
+        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center pointer-events-none">
           {/* Logo/Image */}
           <motion.div
-            className="relative mb-4"
+            className="relative mb-4 pointer-events-none"
             initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
             animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
             transition={{ delay: index * 0.3 + 0.2, duration: 1, type: "spring", bounce: 0.5 }}
-            whileHover={{ scale: 1.15, rotate: 10 }}
+            whileHover={!isMobile ? { scale: 1.15, rotate: 10 } : {}}
           >
             <motion.div
               className="absolute inset-0 blur-3xl rounded-full"
@@ -351,7 +350,7 @@ const ImageCard = ({
         </div>
         
         {/* Description Panel */}
-        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 group-hover:left-0 w-full h-full flex items-center p-6 !font-normal backdrop-blur-md border-t"
+        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 group-hover:left-0 w-full h-full flex items-center p-6 !font-normal backdrop-blur-md border-t pointer-events-none"
           style={{ 
             backgroundColor: 'rgba(122, 184, 0, 0.85)',
             borderColor: 'rgba(175, 237, 0, 0.6)',
@@ -370,15 +369,15 @@ const ImageCard = ({
         </div>
         
         {/* Read More */}
-        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6">
+        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6 pointer-events-none">
           <motion.div
             onClick={(e) => {
               e.stopPropagation(); // Prevent card click from firing
               onOpenModal(card);
             }}
-            className="relative !text-xs z-50 font-bold text-right cursor-pointer md:cursor-pointer"
-            style={{ color: '#cfff33' }}
-            whileHover={{ scale: 1.1, color: '#e5ff66' }}
+            className="relative !text-xs z-[50] font-bold text-right cursor-pointer pointer-events-auto"
+            style={{ color: '#cfff33', touchAction: 'manipulation' }}
+            whileHover={!isMobile ? { scale: 1.1, color: '#e5ff66' } : {}}
             transition={{ duration: 0.2 }}
           >
             <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-[#cfff33] before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_10px_rgba(207,255,51,1)]">
@@ -427,6 +426,7 @@ const CardWithParticles = ({ isInView, delay, onOpenModal }: { isInView: boolean
         // Clicking the card opens the modal
         onOpenModal(braveProject);
       }}
+      style={{ touchAction: 'manipulation' }}
     >
       <motion.div
         initial={{ y: 100, opacity: 0 }}
@@ -645,10 +645,10 @@ const CardWithParticles = ({ isInView, delay, onOpenModal }: { isInView: boolean
         />
 
         {/* Content */}
-        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center">
+        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center pointer-events-none">
           {/* Centered Logo */}
           <motion.div
-            className="relative mb-4"
+            className="relative mb-4 pointer-events-none"
             initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
             animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
             transition={{ delay: delay + 0.3, duration: 0.8, type: "spring" }}
@@ -688,7 +688,7 @@ const CardWithParticles = ({ isInView, delay, onOpenModal }: { isInView: boolean
             Brave Connective
           </motion.p>
         </div>
-        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 group-hover:left-0 w-full h-full flex items-center p-6 !font-normal bg-black/80 backdrop-blur-md border-t border-teal-500/50">
+        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 group-hover:left-0 w-full h-full flex items-center p-6 !font-normal bg-black/80 backdrop-blur-md border-t border-teal-500/50 pointer-events-none">
           <motion.p
             className="!text-sm text-white"
             initial={{ opacity: 0, x: 20 }}
@@ -698,13 +698,14 @@ const CardWithParticles = ({ isInView, delay, onOpenModal }: { isInView: boolean
             Powers the future of business through data, storytelling, messaging, and customer engagement solutions. Uniting AdSpark, m360, and Inquiro to bring brands closer to their customers.
           </motion.p>
         </div>
-        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6">
+        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6 pointer-events-none">
           <motion.div
             onClick={(e) => {
               e.stopPropagation(); // Prevent card click from firing
               onOpenModal(braveProject);
             }}
-            className="relative !text-xs z-50 text-teal-300 font-bold text-right cursor-pointer"
+            className="relative !text-xs z-[50] text-teal-300 font-bold text-right cursor-pointer pointer-events-auto"
+            style={{ touchAction: 'manipulation' }}
             whileHover={{ scale: 1.1, color: '#5eead4' }}
             transition={{ duration: 0.2 }}
           >
@@ -747,14 +748,14 @@ const CraftedCatalystCard = ({ isInView, delay, onOpenModal }: { isInView: boole
 
   return (
     <div
-      className="w-[310px] h-[350px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 md:hover:scale-105 cursor-pointer md:cursor-default"
+      className="w-[310px] h-[350px] sm:w-[300px] sm:h-[400px] md:w-[350px] md:h-[500px] group transition-all ease-in-out duration-300 md:hover:scale-105 cursor-pointer"
       onMouseEnter={() => !isMobile && setIsHovered(true)}
       onMouseLeave={() => !isMobile && setIsHovered(false)}
       onClick={() => {
-        if (isMobile) {
-          onOpenModal(craftedProject);
-        }
+        // Always open modal on mobile; on desktop, modal opens via "Read More" button
+        onOpenModal(craftedProject);
       }}
+      style={{ touchAction: 'manipulation' }}
     >
       <motion.div
         initial={{ y: 100, opacity: 0 }}
@@ -980,10 +981,10 @@ const CraftedCatalystCard = ({ isInView, delay, onOpenModal }: { isInView: boole
         />
         
         {/* Content */}
-        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center">
+        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center pointer-events-none">
           {/* Centered Logo */}
           <motion.div
-            className="relative mb-4"
+            className="relative mb-4 pointer-events-none"
             initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
             animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
             transition={{ delay: delay + 0.3, duration: 0.8, type: "spring" }}
@@ -1029,7 +1030,7 @@ const CraftedCatalystCard = ({ isInView, delay, onOpenModal }: { isInView: boole
         </div>
         
         {/* Description Panel */}
-        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 md:group-hover:left-0 w-full h-full flex items-center p-6 !font-normal backdrop-blur-md border-t"
+        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 md:group-hover:left-0 w-full h-full flex items-center p-6 !font-normal backdrop-blur-md border-t pointer-events-none"
           style={{ 
             backgroundColor: 'rgba(20, 184, 166, 0.85)',
             borderColor: 'rgba(20, 184, 166, 0.6)',
@@ -1046,15 +1047,15 @@ const CraftedCatalystCard = ({ isInView, delay, onOpenModal }: { isInView: boole
         </div>
         
         {/* Read More */}
-        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6">
+        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6 pointer-events-none">
           <motion.div
             onClick={(e) => {
               e.stopPropagation(); // Prevent card click from firing
               onOpenModal(craftedProject);
             }}
-            className="relative !text-xs z-50 font-bold text-right cursor-pointer"
-            style={{ color: '#5eead4' }}
-            whileHover={{ scale: 1.1, color: '#99f6e4' }}
+            className="relative !text-xs z-[50] font-bold text-right cursor-pointer pointer-events-auto"
+            style={{ color: '#5eead4', touchAction: 'manipulation' }}
+            whileHover={!isMobile ? { scale: 1.1, color: '#99f6e4' } : {}}
             transition={{ duration: 0.2 }}
           >
             <span className="relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-[1px] before:bg-teal-400 before:scale-x-0 before:transition-transform before:duration-200 hover:before:scale-x-100 hover:before:origin-left before:origin-right before:shadow-[0_0_8px_rgba(20,184,166,1)]">
@@ -1103,6 +1104,7 @@ const FuturaCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
         // Clicking the card opens the modal
         onOpenModal(futuraProject);
       }}
+      style={{ touchAction: 'manipulation' }}
     >
       <motion.div
         initial={{ y: 100, opacity: 0 }}
@@ -1234,10 +1236,10 @@ const FuturaCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
         )}
         
         {/* Content */}
-        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center">
+        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center pointer-events-none">
           {/* Centered Logo */}
           <motion.div
-            className="relative mb-4"
+            className="relative mb-4 pointer-events-none"
             initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
             animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
             transition={{ delay: delay + 0.3, duration: 0.8, type: "spring" }}
@@ -1273,7 +1275,7 @@ const FuturaCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
         </div>
         
         {/* Description Panel */}
-        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 group-hover:left-0 w-full h-full flex items-center p-6 !font-normal backdrop-blur-md border-t"
+        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 group-hover:left-0 w-full h-full flex items-center p-6 !font-normal backdrop-blur-md border-t pointer-events-none"
           style={{ 
             backgroundColor: 'rgba(127, 29, 29, 0.8)',
             borderColor: 'rgba(239, 68, 68, 0.5)',
@@ -1290,14 +1292,14 @@ const FuturaCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
         </div>
         
         {/* Read More */}
-        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6">
+        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6 pointer-events-none">
           <motion.div
             onClick={(e) => {
               e.stopPropagation(); // Prevent card click from firing
               onOpenModal(futuraProject);
             }}
-            className="relative !text-xs z-50 font-bold text-right cursor-pointer"
-            style={{ color: '#fca5a5' }}
+            className="relative !text-xs z-[50] font-bold text-right cursor-pointer pointer-events-auto"
+            style={{ color: '#fca5a5', touchAction: 'manipulation' }}
             whileHover={!isMobile ? { scale: 1.1, color: '#fecaca' } : {}}
             transition={{ duration: 0.2 }}
           >
@@ -1347,6 +1349,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
         // Clicking the card opens the modal
         onOpenModal(aspireProject);
       }}
+      style={{ touchAction: 'manipulation' }}
     >
       <motion.div
         initial={{ y: 100, opacity: 0 }}
@@ -1480,14 +1483,14 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
         )}
         
         {/* Content */}
-        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center">
+        <div className="w-full h-full p-4 md:p-8 relative z-10 flex flex-col items-center justify-center pointer-events-none">
           {/* Centered Logo */}
           <motion.div
-            className="relative mb-4"
+            className="relative mb-4 pointer-events-none"
             initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
             animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
             transition={{ delay: delay + 0.3, duration: 0.8, type: "spring" }}
-            whileHover={{ scale: 1.1, rotate: 5 }}
+            whileHover={!isMobile ? { scale: 1.1, rotate: 5 } : {}}
           >
             <motion.div
               className="absolute inset-0 blur-2xl rounded-full"
@@ -1519,7 +1522,7 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
         </div>
         
         {/* Description Panel */}
-        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 group-hover:left-0 w-full h-full flex items-center p-6 !font-normal backdrop-blur-md border-t"
+        <div className="absolute bottom-0 left-[100%] transition-all ease-in-out duration-500 delay-100 group-hover:left-0 w-full h-full flex items-center p-6 !font-normal backdrop-blur-md border-t pointer-events-none"
           style={{ 
             backgroundColor: 'rgba(0, 61, 102, 0.8)',
             borderColor: 'rgba(0, 136, 204, 0.5)',
@@ -1536,14 +1539,14 @@ const AspireCard = ({ isInView, delay, onOpenModal }: { isInView: boolean; delay
         </div>
         
         {/* Read More */}
-        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6">
+        <div className="w-full absolute bottom-4 md:bottom-[-60px] left-0 transition-all ease-in-out duration-500 delay-100 md:group-hover:bottom-0 text-right p-6 pointer-events-none">
           <motion.div
             onClick={(e) => {
               e.stopPropagation(); // Prevent card click from firing
               onOpenModal(aspireProject);
             }}
-            className="relative !text-xs z-50 font-bold text-right cursor-pointer"
-            style={{ color: '#66b3ff' }}
+            className="relative !text-xs z-[50] font-bold text-right cursor-pointer pointer-events-auto"
+            style={{ color: '#66b3ff', touchAction: 'manipulation' }}
             whileHover={!isMobile ? { scale: 1.1, color: '#99ccff' } : {}}
             transition={{ duration: 0.2 }}
           >

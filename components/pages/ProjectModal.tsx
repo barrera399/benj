@@ -25,21 +25,43 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   const [mounted, setMounted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    return () => setMounted(false)
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+      setMounted(false)
+    }
   }, [])
 
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.width = '100%'
+      document.body.style.top = `-${window.scrollY}px`
     } else {
-      document.body.style.overflow = 'unset'
+      const scrollY = document.body.style.top
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width = ''
+      document.body.style.top = ''
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1)
+      }
     }
     return () => {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width = ''
+      document.body.style.top = ''
     }
   }, [isOpen])
 
@@ -57,24 +79,27 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+            className="project-modal-backdrop fixed inset-0 bg-black/80 backdrop-blur-sm"
+            data-modal="backdrop"
             style={{ 
               position: 'fixed', 
               top: 0, 
               left: 0, 
               right: 0, 
               bottom: 0,
-              zIndex: 99998
+              zIndex: 99998,
+              pointerEvents: 'auto'
             }}
           />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed inset-0 flex items-start md:items-center justify-center p-2 md:p-4 pointer-events-none overflow-y-auto"
+            exit={{ opacity: 0, y: 20 }}
+            transition={isMobile ? { duration: 0.15, ease: 'easeOut' } : { type: 'spring', damping: 25, stiffness: 300 }}
+            className="project-modal-container fixed inset-0 flex items-start md:items-center justify-center p-2 md:p-4 pointer-events-none overflow-y-auto"
+            data-modal="container"
             style={{ 
               position: 'fixed', 
               top: 0, 
@@ -83,19 +108,30 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               bottom: 0,
               zIndex: 99999,
               WebkitOverflowScrolling: 'touch',
-              visibility: 'visible'
+              visibility: 'visible',
+              opacity: 1,
+              pointerEvents: 'none',
+              touchAction: 'pan-y'
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div 
-              className="w-full max-w-4xl max-h-[95vh] md:max-h-[90vh] bg-black border border-teal-400/30 rounded-2xl overflow-hidden shadow-2xl pointer-events-auto flex flex-col mt-4 md:mt-0 relative"
+            <motion.div 
+              className="project-modal-content w-full max-w-4xl max-h-[95vh] md:max-h-[90vh] bg-black border border-teal-400/30 rounded-2xl overflow-hidden shadow-2xl pointer-events-auto flex flex-col mt-4 md:mt-0 relative"
+              data-modal="content"
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 0 }}
+              transition={{ duration: 0 }}
               style={{ 
                 zIndex: 100000,
                 transform: 'translateZ(0)',
                 WebkitTransform: 'translateZ(0)',
                 visibility: 'visible',
                 opacity: 1,
-                display: 'flex'
+                display: 'flex',
+                pointerEvents: 'auto',
+                touchAction: 'pan-y',
+                position: 'relative'
               }}
             >
               {/* Header */}
@@ -242,7 +278,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                   <FaExternalLinkAlt className="w-4 h-4" />
                 </a>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </>
       )}
