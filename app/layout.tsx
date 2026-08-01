@@ -1,25 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import { ParticlesBackground } from "./../components/globals/bg-particle";
 import Header from "@/components/globals/Header";
-import { poppins } from '@/assets/fonts'
 import Footer from "@/components/globals/Footer";
-// import Chatbot from "@/components/chatbot/Chatbot";
+import ScrollProgress from "@/components/globals/ScrollProgress";
+import MotionProvider from "@/components/globals/MotionProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Benj Barrera",
-  description: "Portfolio",
+  title: "Joseph Barrera — Full-Stack Developer",
+  description:
+    "Joseph Benjamin Barrera — full-stack developer from Tarlac, Philippines. Building scalable, thoughtful software for the web.",
 };
 
 export default function RootLayout({
@@ -30,13 +40,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} antialiased bg-black`}
+        className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} font-sans antialiased bg-background text-ink`}
       >
-        <Header />
-        {/* <ParticlesBackground /> */}
-        {children}
-        <Footer />
-        {/* <Chatbot /> */}
+        <MotionProvider>
+          <ScrollProgress />
+          <div className="grain" aria-hidden />
+          <Header />
+          {children}
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

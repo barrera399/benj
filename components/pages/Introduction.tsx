@@ -1,497 +1,186 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { animate, motion, useInView, useMotionValue } from "framer-motion";
 import Link from "next/link";
-import { FaDownload, FaGithub } from "react-icons/fa";
-import LayoutSmoothScroll from "@/components/globals/LayoutSmoothScroll";
+import { useEffect, useRef, useState } from "react";
+import { FaArrowRight, FaGithub, FaLinkedin } from "react-icons/fa";
+import { RevealWords } from "@/components/globals/Reveal";
+import Magnetic from "@/components/globals/Magnetic";
 
-const roles = [
-  "Full Stack Developer",
-  "Problem Solver",
-  "Tech Enthusiast",
-];
-const techStack = [
-  "React",
-  "Next.js",
-  "Node.js",
-  "TypeScript",
-  "Python",
-  "AWS",
-  "MongoDB",
-  "PostgreSQL",
-  "Supabase",
-  "Docker",
-  "Kubernetes",
-];
-
-// Duplicate array for seamless infinite scroll
-const duplicatedTechStack = [...techStack, ...techStack, ...techStack];
-
-export default function Introduction() {
-  const [currentRole, setCurrentRole] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+function Stat({
+  value,
+  suffix,
+  label,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-15%" });
+  const count = useMotionValue(0);
+  const [display, setDisplay] = useState(0);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    if (!inView) return;
+    const controls = animate(count, value, {
+      duration: 1.6,
+      ease: [0.16, 1, 0.3, 1],
+    });
+    const unsub = count.on("change", (v) => setDisplay(Math.round(v)));
+    return () => {
+      controls.stop();
+      unsub();
     };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  useEffect(() => {
-    const current = roles[currentRole];
-    let timeout: NodeJS.Timeout;
-
-    if (!isDeleting && displayText.length < current.length) {
-      // Typing
-      timeout = setTimeout(() => {
-        setDisplayText(current.substring(0, displayText.length + 1));
-      }, 100);
-    } else if (!isDeleting && displayText.length === current.length) {
-      // Pause at end
-      timeout = setTimeout(() => {
-        setIsDeleting(true);
-      }, 2000);
-    } else if (isDeleting && displayText.length > 0) {
-      // Deleting
-      timeout = setTimeout(() => {
-        setDisplayText(current.substring(0, displayText.length - 1));
-      }, 50);
-    } else if (isDeleting && displayText.length === 0) {
-      // Move to next role
-      setIsDeleting(false);
-      setCurrentRole((prev) => (prev + 1) % roles.length);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, currentRole]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  };
+  }, [inView, value, count]);
 
   return (
-    <div className="relative z-[1] w-full text-white overflow-hidden">
-      {/* Animated Grid Background */}
-      <div 
-        className="fixed inset-0 opacity-10 pointer-events-none z-[-1]" 
-        style={{ 
-          isolation: 'isolate',
-          transform: 'translateZ(0)',
-          willChange: 'auto',
-          backfaceVisibility: 'hidden',
-        }}
-      >
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(20, 184, 166, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(20, 184, 166, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "50px 50px",
-            willChange: isMobile ? 'auto' : 'transform',
-            transform: 'translateZ(0)',
-            backfaceVisibility: 'hidden',
-          }}
-          animate={isMobile ? {} : {
-            x: [0, 50],
-            y: [0, 50],
-          }}
-          transition={isMobile ? {} : {
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-      </div>
-
-      {/* Floating Orbs - Hidden on mobile to prevent interference */}
-      {!isMobile && (
-        <>
-          <motion.div
-            className="fixed top-20 left-10 w-72 h-72 bg-teal-400/20 rounded-full blur-3xl pointer-events-none z-[-1]"
-            style={{ 
-              isolation: 'isolate',
-              transform: 'translateZ(0)',
-              willChange: 'transform',
-              backfaceVisibility: 'hidden',
-            }}
-            animate={{
-              x: [0, 100, 0],
-              y: [0, 50, 0],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-          <motion.div
-            className="fixed bottom-20 right-10 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none z-[-1]"
-            style={{ 
-              isolation: 'isolate',
-              transform: 'translateZ(0)',
-              willChange: 'transform',
-              backfaceVisibility: 'hidden',
-            }}
-            animate={{
-              x: [0, -80, 0],
-              y: [0, -60, 0],
-              scale: [1, 0.8, 1],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </>
-      )}
-
-      {/* Scrollable Content with Smooth Scroll */}
-
-      {/* Split Screen Layout */}
-      <div className="relative z-[10] w-full flex flex-col lg:flex-row min-h-screen" style={{ isolation: 'isolate' }}>
-        {/* Left Side - Image Section */}
-        <motion.div
-          className="w-full lg:w-1/2 flex items-center justify-center p-8 mt-20 md:mt-0 md:p-12 lg:p-16 relative"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.div
-            className="relative group max-w-md w-full"
-            variants={itemVariants}
-            transition={{ duration: 1, ease: "easeOut" }}
-            initial={{ opacity: 0, x: -100 }}
-            animate={{ opacity: 1, x: 0 }}
-            whileHover={{ scale: 1.05 }}
-          >
-            {/* Outer Glow Ring */}
-            <motion.div
-              className="absolute -inset-8 rounded-full bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 opacity-60 blur-3xl group-hover:opacity-80 transition-opacity duration-500"
-              animate={{
-                rotate: [0, 360],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-              }}
-            />
-
-            {/* Animated Border Rings */}
-            <motion.div
-              className="absolute -inset-4 rounded-full border-2 border-teal-400/60"
-              animate={{
-                rotate: [0, -360],
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-
-            {/* Image Container */}
-            <div className="relative w-full aspect-square rounded-full overflow-hidden border-4 border-teal-400/40 shadow-[0_0_60px_rgba(20,184,166,0.4)]">
-              <Image
-                src="/cv-profile2.JPG"
-                alt="Joseph"
-                fill
-                className="object-cover object-top scale-[1.2] rounded-full"
-                priority
-              />
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 rounded-full" />
-            </div>
-
-            {/* Floating Particles Around Image */}
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-3 h-3 bg-teal-400 rounded-full"
-                style={{
-                  top: `${Math.cos((i * Math.PI * 2) / 8) * 120 + 50}%`,
-                  left: `${Math.sin((i * Math.PI * 2) / 8) * 120 + 50}%`,
-                }}
-                animate={{
-                  y: [0, -40, 0],
-                  opacity: [0.3, 1, 0.3],
-                  scale: [1, 1.8, 1],
-                }}
-                transition={{
-                  duration: 3 + i * 0.3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.2,
-                }}
-              />
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Right Side - Text Content */}
-        <motion.div
-          className="w-full lg:w-1/2 flex flex-col items-start justify-center p-8 md:p-12 lg:p-16"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Greeting */}
-          <motion.div
-            variants={itemVariants}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-4"
-          >
-            <motion.span
-              className="text-4xl md:text-5xl lg:text-6xl font-light text-gray-400"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              Hello, I am
-            </motion.span>
-          </motion.div>
-
-          {/* Name with Glitch Effect */}
-          <motion.div
-            variants={itemVariants}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-6 md:mb-8 relative inline-block"
-          >
-            <motion.h1
-              className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <span className="relative inline-block">
-                <span className={`absolute inset-0 text-teal-400 blur-sm opacity-75 ${isMobile ? 'hidden' : ''}`}>
-                  Joseph
-                </span>
-                <span className="relative text-white">Joseph</span>
-              </span>
-            </motion.h1>
-          </motion.div>
-
-          {/* Role Typing Animation */}
-          <motion.div
-            variants={itemVariants}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-10 md:mb-12 h-16 md:h-20 lg:h-24 flex items-center"
-          >
-            <div className="text-2xl md:text-4xl lg:text-5xl font-semibold">
-              <span className="text-gray-400">I am a </span>
-              <span className="text-teal-400 italic relative">
-                {displayText}
-                <motion.span
-                  className="inline-block w-1 h-8 md:h-12 lg:h-14 bg-teal-400 ml-1"
-                  animate={{ opacity: [1, 0, 1] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                />
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Stats - Compact Badge Design */}
-          <motion.div
-            variants={itemVariants}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="w-full mb-12"
-          >
-            <div className="flex flex-wrap items-center gap-3 md:gap-4">
-              {[
-                { label: "Projects", value: "20+" },
-                { label: "Experience", value: "5+" },
-                { label: "Technologies", value: "30+" },
-              ].map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  className="group relative inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-800/60 backdrop-blur-sm border border-teal-400/30 hover:border-teal-400/60 transition-all duration-300"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1 + index * 0.15, duration: 0.5 }}
-                  whileHover={{ 
-                    scale: 1.05,
-                    boxShadow: "0 0 20px rgba(20, 184, 166, 0.3)"
-                  }}
-                >
-                  {/* Animated glow on hover */}
-                  <motion.div
-                    className="absolute inset-0 rounded-full bg-teal-400/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300"
-                    initial={false}
-                  />
-                  
-                  {/* Value */}
-                  <motion.span
-                    className="text-xl md:text-2xl font-bold text-teal-400 relative z-10"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    {stat.value}
-                  </motion.span>
-                  
-                  {/* Divider */}
-                  <div className="w-px h-4 bg-teal-400/40 group-hover:bg-teal-400/60 transition-colors duration-300" />
-                  
-                  {/* Label */}
-                  <span className="text-xs md:text-sm text-gray-300 font-medium relative z-10 group-hover:text-gray-200 transition-colors duration-300">
-                    {stat.label}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Action Buttons */}
-          <motion.div
-            variants={itemVariants}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="flex flex-wrap gap-4 mb-12"
-          >
-            {/* Resume Download Button */}
-            <Link
-              href="/Joseph Benjamin Barrera - Resume.pdf"
-              target="_blank"
-              className="group relative inline-flex items-center gap-3 px-6 py-3 bg-teal-400 hover:bg-teal-500 text-black font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-teal-400/50 overflow-hidden"
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                initial={false}
-              />
-              <FaDownload className="w-5 h-5 relative z-10" />
-              <span className="relative z-10">Resume</span>
-            </Link>
-
-            {/* GitHub Link Button */}
-            <Link
-              href="https://github.com/Norlant1"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-3 px-6 py-3 bg-gray-800/80 hover:bg-gray-700/80 text-white font-semibold rounded-lg transition-all duration-300 border border-gray-700 hover:border-teal-400/50 hover:shadow-lg hover:shadow-teal-400/20 overflow-hidden"
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                initial={false}
-              />
-              <FaGithub className="w-5 h-5 relative z-10 group-hover:text-teal-400 transition-colors duration-300" />
-              <span className="relative z-10 group-hover:text-teal-400 transition-colors duration-300">GitHub</span>
-            </Link>
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Infinite Tech Stack Carousel */}
-      <motion.div
-        className="relative z-[20] py-8 overflow-hidden w-full"
-        style={{ isolation: 'isolate' }}
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
-      >
-        {/* Gradient Fades */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-[30] pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-[30] pointer-events-none" />
-
-        <div className="relative flex">
-          <motion.div
-            className="flex gap-4 md:gap-6"
-            animate={{
-              x: [0, -(techStack.length * 216)], // Move by one set (item width + gap)
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            style={{
-              display: "flex",
-              width: "max-content",
-            }}
-          >
-            {duplicatedTechStack.map((tech, index) => (
-              <div
-                key={`carousel-${tech}-${index}`}
-                className="group relative shrink-0"
-              >
-                <div
-                  className="relative px-6 py-3 md:px-8 md:py-4 bg-black/60 backdrop-blur-md border border-teal-400/40 rounded-full 
-                              hover:border-teal-400 hover:shadow-[0_0_25px_rgba(20,184,166,0.6)] 
-                              transition-all duration-300 overflow-hidden whitespace-nowrap min-w-[160px] md:min-w-[200px] text-center"
-                >
-                  <div
-                    className="absolute inset-0 bg-gradient-to-r from-teal-400/0 via-teal-400/30 to-teal-400/0 
-                                -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
-                  />
-                  <span className="relative text-base md:text-lg text-gray-200 group-hover:text-teal-400 transition-colors duration-300 font-medium">
-                    {tech}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.div> 
-
-      {/* Scroll Indicator */}
-      {/* <motion.div
-        className="relative z-30 flex items-center justify-center py-12"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="flex flex-col items-center gap-2"
-        >
-          <span className="text-xs text-gray-500">Scroll</span>
-          <motion.div
-            className="w-6 h-10 border-2 border-teal-400/50 rounded-full flex justify-center p-2"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <motion.div
-              className="w-1 h-3 bg-teal-400 rounded-full"
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-          </motion.div>
-        </motion.div>
-      </motion.div> */}
-
-      {/* Decorative Code Lines */}
-      <div className="relative h-32 overflow-hidden opacity-5 pointer-events-none">
-        <div className="font-mono text-xs md:text-sm text-teal-400 whitespace-nowrap">
-          {'const developer = { name: "Joseph", passion: "Building amazing things" };'.repeat(
-            10
-          )}
-        </div>
-      </div>
+    <div ref={ref} className="flex flex-col">
+      <span className="mono text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+        {display}
+        {suffix}
+      </span>
+      <span className="mt-1 text-xs text-muted">{label}</span>
     </div>
+  );
+}
+
+export default function Introduction() {
+  return (
+    <section
+      id="top"
+      className="relative flex min-h-screen w-full flex-col justify-center overflow-hidden px-6 pb-14 pt-32 md:px-10 md:pt-40"
+    >
+      {/* faint radial lift behind the statement */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 55% at 50% 32%, rgba(11,11,12,0.05), transparent 70%)",
+        }}
+      />
+
+      <div className="mx-auto w-full max-w-[1240px]">
+        {/* eyebrow row */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-10 flex items-center justify-between md:mb-14"
+        >
+          <span className="eyebrow">Full-Stack Developer</span>
+          <span className="eyebrow flex items-center gap-2">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ink/50" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-ink" />
+            </span>
+            Available for work
+          </span>
+        </motion.div>
+
+        {/* the statement */}
+        <h1 className="text-display max-w-[15ch] font-medium text-ink">
+          <RevealWords
+            text="I build products people actually use."
+            serifWords={["actually"]}
+            stagger={0.07}
+          />
+        </h1>
+
+        {/* meta row */}
+        <div className="mt-14 grid gap-10 md:mt-20 md:grid-cols-[1.1fr_1fr] md:items-end">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-xl text-lg leading-relaxed text-muted md:text-xl"
+          >
+            I&apos;m{" "}
+            <span className="text-ink">Joseph Barrera</span>, a full-stack
+            developer from Tarlac, Philippines. Five years turning complex
+            problems into clean, dependable products — from insured car-sharing
+            marketplaces to multi-tenant AI platforms.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-start gap-6 md:items-end"
+          >
+            <div className="flex flex-wrap items-center gap-4">
+              <Magnetic strength={0.4}>
+                <a
+                  href="#work"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-6 py-3.5 text-sm font-medium text-background transition-[transform,background-color] duration-300 hover:-translate-y-0.5 hover:bg-ink-soft"
+                >
+                  View work
+                  <FaArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              </Magnetic>
+
+              <Link
+                href="/Joseph Benjamin Barrera - Resume.pdf"
+                target="_blank"
+                className="link-underline inline-flex items-center gap-2 py-3.5 text-sm font-medium text-ink"
+              >
+                Résumé
+                <span className="text-xs">↗</span>
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-5">
+              <Link
+                href="https://github.com/Norlant1"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="-m-2.5 inline-flex p-2.5 text-muted transition-colors hover:text-ink"
+              >
+                <FaGithub className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://www.linkedin.com/in/joseph-benjamin-barrera-034a6024b/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="-m-2.5 inline-flex p-2.5 text-muted transition-colors hover:text-ink"
+              >
+                <FaLinkedin className="h-5 w-5" />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* stats + scroll cue */}
+        <div className="mt-16 flex flex-col gap-10 border-t border-line pt-8 md:mt-24 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-10 sm:gap-16">
+            <Stat value={20} suffix="+" label="Projects shipped" />
+            <Stat value={5} suffix="+" label="Years building" />
+            <Stat value={30} suffix="+" label="Technologies" />
+          </div>
+
+          <motion.a
+            href="#about"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 1 }}
+            className="group hidden items-center gap-3 md:flex"
+          >
+            <span className="eyebrow">Scroll</span>
+            <span className="relative block h-10 w-[1px] overflow-hidden bg-line">
+              <motion.span
+                className="absolute left-0 top-0 block h-4 w-full bg-ink"
+                animate={{ y: ["-100%", "250%"] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </span>
+          </motion.a>
+        </div>
+      </div>
+    </section>
   );
 }

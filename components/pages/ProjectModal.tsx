@@ -1,294 +1,254 @@
-'use client'
+"use client";
 
-import { motion, AnimatePresence } from 'framer-motion'
-import { FaTimes, FaExternalLinkAlt, FaCode } from 'react-icons/fa'
-import Image from 'next/image'
-import { createPortal } from 'react-dom'
-import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from "framer-motion";
+import { FiX, FiArrowUpRight } from "react-icons/fi";
+import Image from "next/image";
+import { createPortal } from "react-dom";
+import { useEffect, useRef, useState } from "react";
 
 export interface ProjectDetails {
-  title: string
-  description: string
-  longDescription: string
-  techStack: string[]
-  url: string
-  image: string
-  highlights?: string[]
-  features?: string[]
+  title: string;
+  description: string;
+  longDescription: string;
+  techStack: string[];
+  url: string;
+  image: string;
+  highlights?: string[];
+  features?: string[];
+  /** Render the image band on a dark surface (for white/light logos). */
+  previewDark?: boolean;
+  /** How the image sits in its band. */
+  previewFit?: "cover" | "contain";
 }
 
 interface ProjectModalProps {
-  project: ProjectDetails | null
-  isOpen: boolean
-  onClose: () => void
+  project: ProjectDetails | null;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
-  const [mounted, setMounted] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const [mounted, setMounted] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const prevFocusRef = useRef<HTMLElement | null>(null);
+  const scrollYRef = useRef(0);
 
   useEffect(() => {
-    setMounted(true)
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => {
-      window.removeEventListener('resize', checkMobile)
-      setMounted(false)
-    }
-  }, [])
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
-  // Prevent body scroll when modal is open
+  // Close on Escape
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-      document.body.style.position = 'fixed'
-      document.body.style.width = '100%'
-      document.body.style.top = `-${window.scrollY}px`
-    } else {
-      const scrollY = document.body.style.top
-      document.body.style.overflow = ''
-      document.body.style.position = ''
-      document.body.style.width = ''
-      document.body.style.top = ''
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1)
-      }
-    }
-    return () => {
-      document.body.style.overflow = ''
-      document.body.style.position = ''
-      document.body.style.width = ''
-      document.body.style.top = ''
-    }
-  }, [isOpen])
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, onClose]);
 
-  if (!project || !mounted) {
-    return null
-  }
+  // Body scroll lock — capture/restore scroll position via a ref (not body.style.top,
+  // which the effect cleanup wipes before it can be read back)
+  useEffect(() => {
+    if (!isOpen) return;
+    scrollYRef.current = window.scrollY;
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
+    document.body.style.top = `-${scrollYRef.current}px`;
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      window.scrollTo(0, scrollYRef.current);
+    };
+  }, [isOpen]);
+
+  // Focus management: move focus in on open, restore to the trigger on close
+  useEffect(() => {
+    if (!isOpen) return;
+    prevFocusRef.current = document.activeElement as HTMLElement;
+    const t = setTimeout(() => closeBtnRef.current?.focus(), 60);
+    return () => {
+      clearTimeout(t);
+      prevFocusRef.current?.focus?.();
+    };
+  }, [isOpen]);
+
+  // Trap Tab within the dialog
+  const onDialogKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== "Tab" || !dialogRef.current) return;
+    const focusables = Array.from(
+      dialogRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled])'
+      )
+    );
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
+  if (!project || !mounted) return null;
+
+  const isCover = project.previewFit
+    ? project.previewFit === "cover"
+    : project.image.includes("cover");
+  const isDarkLogo = project.previewDark ?? project.image.includes("brave");
 
   const modalContent = (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       {isOpen && project && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="project-modal-backdrop fixed inset-0 bg-black/80 backdrop-blur-sm"
-            data-modal="backdrop"
-            style={{ 
-              position: 'fixed', 
-              top: 0, 
-              left: 0, 
-              right: 0, 
-              bottom: 0,
-              zIndex: 99998,
-              pointerEvents: 'auto'
-            }}
+            className="fixed inset-0 bg-ink/50 backdrop-blur-md"
+            style={{ zIndex: 99998 }}
           />
 
-          {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={isMobile ? { duration: 0.15, ease: 'easeOut' } : { type: 'spring', damping: 25, stiffness: 300 }}
-            className="project-modal-container fixed inset-0 flex items-start md:items-center justify-center p-2 md:p-4 pointer-events-none overflow-y-auto"
-            data-modal="container"
-            style={{ 
-              position: 'fixed', 
-              top: 0, 
-              left: 0, 
-              right: 0, 
-              bottom: 0,
-              zIndex: 99999,
-              WebkitOverflowScrolling: 'touch',
-              visibility: 'visible',
-              opacity: 1,
-              pointerEvents: 'none',
-              touchAction: 'pan-y'
-            }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 24 }}
+            transition={{ type: "spring", damping: 28, stiffness: 320 }}
+            className="fixed inset-0 flex items-center justify-center overflow-y-auto p-3 md:p-6"
+            style={{ zIndex: 99999, pointerEvents: "none" }}
             onClick={(e) => e.stopPropagation()}
           >
-            <motion.div 
-              className="project-modal-content w-full max-w-4xl max-h-[95vh] md:max-h-[90vh] bg-black border border-teal-400/30 rounded-2xl overflow-hidden shadow-2xl pointer-events-auto flex flex-col mt-4 md:mt-0 relative"
-              data-modal="content"
-              initial={{ opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 0 }}
-              transition={{ duration: 0 }}
-              style={{ 
-                zIndex: 100000,
-                transform: 'translateZ(0)',
-                WebkitTransform: 'translateZ(0)',
-                visibility: 'visible',
-                opacity: 1,
-                display: 'flex',
-                pointerEvents: 'auto',
-                touchAction: 'pan-y',
-                position: 'relative'
-              }}
+            <div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-modal-title"
+              onKeyDown={onDialogKeyDown}
+              className="pointer-events-auto relative flex max-h-[92dvh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-2xl shadow-ink/20"
             >
-              {/* Header */}
-              <div className="relative h-32 md:h-48 lg:h-64 overflow-hidden flex-shrink-0">
-                {/* Check if image is a logo (ends with logo filenames) */}
-                {project.image.includes('brave') || project.image.includes('aspire') || project.image.includes('crafted-catalyst') || project.image.includes('futura-icon') ? (
-                  <>
-                    {/* Gradient background for logos */}
-                    <div className={`absolute inset-0 ${
-                      project.image.includes('brave') 
-                        ? 'bg-gradient-to-br from-teal-900 via-teal-800 to-teal-900' 
-                        : project.image.includes('crafted-catalyst')
-                        ? 'bg-gradient-to-br from-teal-500 via-blue-500 to-purple-600'
-                        : project.image.includes('futura-icon')
-                        ? 'bg-gradient-to-br from-red-900 via-red-800 to-red-900'
-                        : 'bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900'
-                    }`} />
-                    {/* Centered logo */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        width={200}
-                        height={200}
-                        className="object-contain opacity-90"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </>
+              {/* Image band */}
+              <div
+                className={`relative h-40 shrink-0 overflow-hidden md:h-56 ${
+                  isDarkLogo ? "bg-ink" : "bg-surface-2"
+                }`}
+              >
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 768px"
+                  className={isCover ? "object-cover" : "object-contain p-10"}
+                />
+                {isCover && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface/40 to-transparent" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-                
-                {/* Close Button */}
                 <button
+                  ref={closeBtnRef}
                   onClick={onClose}
-                  className="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/80 rounded-full flex items-center justify-center transition-colors z-10"
-                  aria-label="Close modal"
+                  aria-label="Close dialog"
+                  className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-line bg-surface/80 text-ink backdrop-blur transition-colors hover:bg-ink hover:text-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ink"
                 >
-                  <FaTimes className="text-white w-5 h-5" />
+                  <FiX className="h-5 w-5" />
                 </button>
-
-                {/* Title Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{project.title}</h2>
-                  <p className="text-teal-400 text-sm md:text-base">{project.description}</p>
-                </div>
               </div>
 
-              {/* Content */}
-              <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scrollbar-thin min-h-0" style={{
-                scrollbarWidth: 'thin',
-                scrollbarColor: 'rgba(20, 184, 166, 0.5) transparent'
-              }}>
-                {/* Highlights */}
+              {/* Body */}
+              <div className="scrollbar-thin flex-1 overflow-y-auto p-6 md:p-9">
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <h2
+                    id="project-modal-title"
+                    className="text-3xl font-medium tracking-tight text-ink md:text-4xl"
+                  >
+                    {project.title}
+                  </h2>
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-underline mono text-xs text-muted hover:text-ink"
+                  >
+                    Live site ↗
+                  </a>
+                </div>
+                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
+                  {project.description}
+                </p>
+
                 {project.highlights && project.highlights.length > 0 && (
-                  <div className="mb-6">
-                    {project.highlights.map((highlight, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="inline-block mr-2 mb-2 px-4 py-2 bg-teal-400/20 border border-teal-400/50 rounded-full text-teal-400 text-sm font-semibold"
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {project.highlights.map((h) => (
+                      <span
+                        key={h}
+                        className="rounded-full border border-line-2 px-3.5 py-1.5 text-xs font-medium text-ink"
                       >
-                        {highlight}
-                      </motion.div>
+                        {h}
+                      </span>
                     ))}
                   </div>
                 )}
 
-                {/* Long Description */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="mb-6"
-                >
-                  <p className="text-white text-base md:text-lg leading-relaxed whitespace-pre-line">
-                    {project.longDescription}
-                  </p>
-                </motion.div>
+                <p className="mt-8 whitespace-pre-line text-[15px] leading-relaxed text-ink-soft">
+                  {project.longDescription}
+                </p>
 
-                {/* Features */}
                 {project.features && project.features.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="mb-6"
-                  >
-                    <h3 className="text-xl font-bold text-teal-400 mb-4 flex items-center gap-2">
-                      <FaCode className="w-5 h-5" />
-                      Key Features
-                    </h3>
-                    <ul className="space-y-2">
-                      {project.features.map((feature, index) => (
-                        <li key={index} className="text-gray-300 flex items-start gap-3">
-                          <span className="text-teal-400 mt-1">▹</span>
-                          <span>{feature}</span>
+                  <div className="mt-10">
+                    <h3 className="eyebrow mb-4">Key Features</h3>
+                    <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+                      {project.features.map((f) => (
+                        <li
+                          key={f}
+                          className="flex items-start gap-3 text-sm text-muted"
+                        >
+                          <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-ink" />
+                          <span>{f}</span>
                         </li>
                       ))}
                     </ul>
-                  </motion.div>
+                  </div>
                 )}
 
-                {/* Tech Stack */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="mb-6"
-                >
-                  <h3 className="text-xl font-bold text-teal-400 mb-4">Tech Stack</h3>
+                <div className="mt-10">
+                  <h3 className="eyebrow mb-4">Tech Stack</h3>
                   <div className="flex flex-wrap gap-2">
-                    {project.techStack.map((tech, index) => (
+                    {project.techStack.map((tech) => (
                       <span
-                        key={index}
-                        className="px-4 py-2 bg-gray-800 border border-teal-400/30 rounded-lg text-white text-sm hover:border-teal-400/60 hover:bg-gray-700 transition-colors"
+                        key={tech}
+                        className="rounded-md border border-line bg-background px-3 py-1.5 text-xs text-ink-soft"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               </div>
 
-              {/* Footer with Link */}
-              <div className="border-t border-teal-400/30 p-6 bg-black/50">
+              {/* Footer */}
+              <div className="shrink-0 border-t border-line bg-surface p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:px-9">
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-teal-400 hover:bg-teal-500 text-black font-semibold rounded-lg transition-all duration-300"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-6 py-3 text-sm font-medium text-background transition-[transform,background-color] duration-300 hover:-translate-y-0.5 hover:bg-ink-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
                 >
-                  <span>Visit Website</span>
-                  <FaExternalLinkAlt className="w-4 h-4" />
+                  Visit website
+                  <FiArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
-  )
+  );
 
-  if (typeof window === 'undefined') {
-    return null
-  }
-  
-  return createPortal(modalContent, document.body)
+  if (typeof window === "undefined") return null;
+  return createPortal(modalContent, document.body);
 }
-

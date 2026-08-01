@@ -1,271 +1,231 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* ------------------------------------------------------------------ *
+   Joseph Barrera — Portfolio
+   Design language: sleek, minimal, Apple-esque.
+   Palette: off-white canvas, near-black ink, deep charcoal grays.
+   No color. Just space, type, and restraint.
+ * ------------------------------------------------------------------ */
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-foreground: var(--ink);
+
+  /* shadcn/Button compatibility — retuned to monochrome */
+  --color-primary: var(--ink);
+  --color-primary-foreground: var(--background);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--ink);
+  --color-accent: var(--surface-2);
+  --color-accent-foreground: var(--ink);
+  --color-muted-foreground: var(--muted);
+  --color-border: var(--line);
+  --color-input: var(--line-2);
+  --color-ring: var(--ink);
+  --color-destructive: #b42318;
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --font-serif: var(--font-instrument-serif);
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  --background: #f4f3f0; /* warm off-white */
+  --surface: #fbfbfa;    /* elevated card */
+  --surface-2: #e9e8e4;  /* recessed / hover */
+  --ink: #0b0b0c;        /* near-black text */
+  --ink-soft: #26262a;   /* strong secondary */
+  --muted: #55555b;      /* deep gray — "a bit black" */
+  --faint: #6a6a6f;      /* micro labels — darkened to pass WCAG AA on the canvas */
+  --line: rgba(11, 11, 12, 0.1);
+  --line-2: rgba(11, 11, 12, 0.16);
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--line);
   }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "cv01", "cv02";
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--background);
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
   }
 }
 
-/* Custom Scrollbar Styles */
+/* ------------------------------------------------------------------ *
+   Type helpers
+ * ------------------------------------------------------------------ */
 @layer utilities {
-  /* Webkit browsers (Chrome, Safari, Edge) */
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
+  .font-serif {
+    font-family: var(--font-serif), Georgia, serif;
   }
-  
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
+
+  .eyebrow {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--faint);
   }
-  
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: rgba(20, 184, 166, 0.5);
-    border-radius: 3px;
-    border: 1px solid rgba(20, 184, 166, 0.3);
+
+  .mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-feature-settings: "tnum";
   }
-  
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(20, 184, 166, 0.7);
-    border-color: rgba(20, 184, 166, 0.5);
+
+  /* Fluid display sizing */
+  .text-display {
+    font-size: clamp(2.75rem, 8vw, 8rem);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+
+  /* Shared scale for the big serif-accented statement headings (About, Contact) */
+  .text-statement {
+    font-size: clamp(1.7rem, 3.4vw, 3rem);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
   }
 }
 
-/* Hide reCAPTCHA badge */
+/* ------------------------------------------------------------------ *
+   Animated underline for links
+ * ------------------------------------------------------------------ */
+@layer utilities {
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+   Marquee
+ * ------------------------------------------------------------------ */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee-x var(--marquee-duration, 40s) linear infinite;
+}
+.marquee-paused:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* ------------------------------------------------------------------ *
+   Grain overlay — whisper-quiet tactile texture
+ * ------------------------------------------------------------------ */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------------------ *
+   Custom scrollbar — monochrome
+ * ------------------------------------------------------------------ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(11, 11, 12, 0.28) transparent;
+}
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(11, 11, 12, 0.22);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(11, 11, 12, 0.4);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Hide reCAPTCHA badge (kept from original) */
 .grecaptcha-badge {
   visibility: hidden !important;
   opacity: 0 !important;
   display: none !important;
 }
 
-/* Prevent hover flickering on mobile/touch devices */
-@media (hover: none) and (pointer: coarse) {
-  *:hover {
-    transform: none !important;
+/* Respect reduced motion for looping/entrance animation */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
-  
-  .group:hover * {
-    transform: none !important;
-  }
-}
-
-/* Optimize animations for mobile */
-@media (max-width: 768px) {
-  /* Ensure content is always visible and clickable */
-  body > *:not([class*="fixed"]) {
-    position: relative;
-    z-index: 1;
-  }
-  
-  /* Fixed backgrounds should be behind everything - but exclude modals */
-  [class*="fixed"][class*="inset-0"]:not(.project-modal-backdrop):not(.project-modal-container):not(.project-modal-content),
-  [class*="fixed"][class*="z-0"],
-  [class*="fixed"][class*="z-[-1]"] {
-    z-index: -1 !important;
-    pointer-events: none !important;
-    isolation: isolate;
-  }
-  
-  /* Ensure all content sections are above backgrounds */
-  section,
-  main,
-  [class*="relative"]:not([class*="fixed"]) {
-    position: relative;
-    z-index: 1;
-    isolation: isolate;
-  }
-  
-  /* Ensure buttons and links are always clickable */
-  button,
-  a,
-  [role="button"],
-  [onclick] {
-    position: relative;
-    z-index: 10 !important;
-    pointer-events: auto !important;
-    isolation: isolate;
-  }
-  
-  /* Ensure text content is always visible */
-  p, h1, h2, h3, h4, h5, h6, span, div[class*="text"] {
-    position: relative;
-    z-index: 1;
-  }
-  
-  /* Modal styling - MUST be above other rules */
-  .project-modal-backdrop,
-  [data-modal="backdrop"] {
-    z-index: 99998 !important;
-    pointer-events: auto !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    display: block !important;
-  }
-  
-  .project-modal-container,
-  [data-modal="container"] {
-    z-index: 99999 !important;
-    pointer-events: none !important; /* Container allows clicks through to backdrop */
-    visibility: visible !important;
-    opacity: 1 !important;
-    display: flex !important;
-    -webkit-transform: none !important;
-    transform: none !important;
-    -webkit-backface-visibility: visible !important;
-    backface-visibility: visible !important;
-  }
-  
-  .project-modal-content,
-  [data-modal="content"] {
-    z-index: 100000 !important;
-    pointer-events: auto !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    display: flex !important;
-    -webkit-transform: translateZ(0) !important;
-    transform: translateZ(0) !important;
-    -webkit-backface-visibility: visible !important;
-    backface-visibility: visible !important;
-  }
-  
-  /* Legacy support for style-based selectors */
-  [style*="zIndex: 99998"]:not([class*="project-modal"]),
-  [style*="zIndex: 99999"]:not([class*="project-modal"]),
-  [style*="zIndex: 100000"]:not([class*="project-modal"]) {
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Prevent background effects from interfering with content */
-  [class*="fixed"][class*="blur"]:not([class*="z-[100"]):not([class*="z-[1000"]) {
-    z-index: -1 !important;
-    pointer-events: none !important;
-  }
-  
-  /* Disable continuous animations on mobile for performance */
-  [class*="animate-"]:not([class*="hover"]) {
-    animation-play-state: running;
-  }
-  
-  /* Ensure footer is always visible */
-  footer,
-  [class*="Footer"],
-  [class*="footer"] {
-    position: relative;
-    z-index: 100 !important;
-    isolation: isolate;
+  .animate-marquee {
+    animation: none !important;
   }
 }
