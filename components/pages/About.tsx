@@ -30,14 +30,18 @@ export default function About() {
               ref={imgWrapRef}
               className="group relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-xl bg-surface-2"
             >
-              <motion.div style={{ y }} className="absolute inset-0 scale-110">
-                <Image
-                  src="/cv-profile2.JPG"
-                  alt="Joseph Barrera"
-                  fill
-                  sizes="(max-width: 768px) 90vw, 40vw"
-                  className="object-cover object-top grayscale transition-[filter,transform] duration-700 ease-out group-hover:scale-105 group-hover:contrast-[1.08]"
-                />
+              {/* parallax layer — framer only translates Y (no transform conflict) */}
+              <motion.div style={{ y }} className="absolute inset-[-10%]">
+                {/* zoom layer — plain CSS transform transition, smooth on hover */}
+                <div className="h-full w-full transition-transform duration-700 ease-out will-change-transform group-hover:scale-105">
+                  <Image
+                    src="/cv-profile2.JPG"
+                    alt="Joseph Barrera"
+                    fill
+                    sizes="(max-width: 768px) 90vw, 40vw"
+                    className="object-cover object-top grayscale transition-[filter] duration-700 ease-out group-hover:contrast-[1.05]"
+                  />
+                </div>
               </motion.div>
               <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-line" />
             </div>

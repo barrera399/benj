@@ -57,11 +57,17 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
     document.body.style.width = "100%";
     document.body.style.top = `-${scrollYRef.current}px`;
     return () => {
+      // Restore instantly — the global `scroll-behavior: smooth` would
+      // otherwise animate this restore, reading as a jump-to-top-then-scroll.
+      const html = document.documentElement;
+      const prevBehavior = html.style.scrollBehavior;
+      html.style.scrollBehavior = "auto";
       document.body.style.overflow = "";
       document.body.style.position = "";
       document.body.style.width = "";
       document.body.style.top = "";
       window.scrollTo(0, scrollYRef.current);
+      html.style.scrollBehavior = prevBehavior;
     };
   }, [isOpen]);
 
