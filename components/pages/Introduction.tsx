@@ -158,7 +158,7 @@ export default function Introduction() {
         {/* stats + scroll cue */}
         <div className="mt-16 flex flex-col gap-10 border-t border-line pt-8 md:mt-24 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-10 sm:gap-16">
-            <Stat value={20} suffix="+" label="Projects shipped" />
+            <Stat value={30} suffix="+" label="Projects shipped" />
             <Stat value={5} suffix="+" label="Years building" />
             <Stat value={30} suffix="+" label="Technologies" />
           </div>
