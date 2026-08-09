@@ -148,7 +148,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="w-full scroll-mt-24 px-6 py-24 md:px-10 md:py-36"
+      className="w-full scroll-mt-24 px-6 py-16 md:px-10 md:py-24"
     >
       <div className="mx-auto max-w-[1240px]">
         <SectionHeader index="05" title="Contact" label="Let's talk" />

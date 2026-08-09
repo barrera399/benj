@@ -17,7 +17,7 @@ export default function SectionHeader({
   label?: string;
 }) {
   return (
-    <div className="mb-14 md:mb-20">
+    <div className="mb-10 md:mb-14">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

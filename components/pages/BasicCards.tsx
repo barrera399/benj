@@ -1,17 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 import SectionHeader from "@/components/globals/SectionHeader";
 import ProjectModal, { type ProjectDetails } from "./ProjectModal";
-import { useCanHover } from "@/lib/hooks";
 
 type Project = ProjectDetails & {
   summary: string;
@@ -20,6 +14,34 @@ type Project = ProjectDetails & {
 };
 
 const data: Project[] = [
+  {
+    title: "CAI Studio",
+    summary:
+      "A no-code platform to build AI studios of specialized, collaborating agents.",
+    tag: "AI Platform",
+    description:
+      "A no-code platform where anyone can build their own AI studio — filled with specialized agents that each have their own knowledge, tools, and models, and can work together as a team.",
+    image: "/cai-studio.svg",
+    preview: { src: "/cai-studio.svg", fit: "contain" },
+    url: "https://caistudio.nl",
+    longDescription: `CAI Studio is a no-code platform where users build their own AI studio filled with multiple specialized agents.
+
+Each agent can be given its own knowledge base using embeddings and retrieval (RAG), connected to external apps through tool calling and integrations, and powered by different AI models from OpenAI and Anthropic. Agents also have built-in tools like web search, URL scraping, code execution, and image generation.
+
+Agents can work together as a team — one pulling in a colleague when a question falls outside its role. Users can even build their landing page inside the platform without any programming knowledge, then publish so end-users can chat with the assistants directly.`,
+    techStack: ["Vue", "Laravel", "OpenAI", "Anthropic", "RAG / Embeddings", "Tool Calling"],
+    highlights: ["No-Code AI Studio", "Multi-Agent Teams"],
+    features: [
+      "Build specialized AI agents with no code",
+      "Per-agent knowledge bases via embeddings and retrieval (RAG)",
+      "Tool calling and integrations with external apps",
+      "Multiple models from OpenAI and Anthropic",
+      "Built-in tools: web search, URL scraping, code execution, image generation",
+      "Multi-agent teamwork — an agent pulls in a colleague when a question is outside its role",
+      "No-code landing page builder",
+      "Publish so end-users can chat with the assistants directly",
+    ],
+  },
   {
     title: "Poost Company",
     summary:
@@ -174,47 +196,9 @@ The multi-tenant architecture ensures secure isolation between different clients
   },
 ];
 
-/** Small framed thumbnail — reused inline on mobile and inside the cursor preview. */
-function Thumb({
-  project,
-  className,
-  sizes,
-}: {
-  project: Project;
-  className?: string;
-  sizes: string;
-}) {
-  return (
-    <div
-      className={`relative overflow-hidden ${
-        project.preview.dark ? "bg-ink" : "bg-surface-2"
-      } ${className ?? ""}`}
-    >
-      <Image
-        src={project.preview.src}
-        alt={project.title}
-        fill
-        sizes={sizes}
-        className={
-          project.preview.fit === "cover"
-            ? "object-cover"
-            : "object-contain p-4"
-        }
-      />
-    </div>
-  );
-}
-
 export default function BasicCards() {
-  const canHover = useCanHover();
-  const [active, setActive] = useState<number | null>(null);
   const [selected, setSelected] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 160, damping: 22, mass: 0.5 });
-  const sy = useSpring(my, { stiffness: 160, damping: 22, mass: 0.5 });
 
   const openModal = (p: Project) => {
     setSelected({
@@ -233,108 +217,77 @@ export default function BasicCards() {
     <>
       <section
         id="work"
-        className="w-full scroll-mt-24 px-6 py-24 md:px-10 md:py-36"
-        onMouseMove={(e) => {
-          mx.set(e.clientX);
-          my.set(e.clientY);
-        }}
+        className="w-full scroll-mt-24 px-6 py-16 md:px-10 md:py-24"
       >
         <div className="mx-auto max-w-[1240px]">
-          <SectionHeader index="04" title="Selected Work" label="Six of many" />
+          <SectionHeader index="04" title="Selected Work" label="Seven of many" />
 
-          <div className="flex flex-col">
+          <div className="grid gap-x-8 gap-y-12 md:grid-cols-2">
             {data.map((project, i) => (
-              <motion.div
+              <motion.article
                 key={project.title}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-8%" }}
                 transition={{
                   duration: 0.7,
-                  delay: i * 0.05,
+                  delay: (i % 2) * 0.08,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="group relative border-t border-line last:border-b"
+                className="group relative"
               >
-                <div className="flex items-center gap-5 py-6 md:gap-8 md:py-9">
-                  <span className="mono hidden text-xs text-faint sm:block">
-                    0{i + 1}
-                  </span>
-
-                  {/* mobile thumbnail */}
-                  <Thumb
-                    project={project}
-                    sizes="80px"
-                    className="h-16 w-20 shrink-0 rounded-md ring-1 ring-inset ring-line md:hidden"
+                <div
+                  className={`relative aspect-[16/11] overflow-hidden rounded-2xl ring-1 ring-inset ring-line ${
+                    project.preview.dark ? "bg-ink" : "bg-surface-2"
+                  }`}
+                >
+                  <Image
+                    src={project.preview.src}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 92vw, 46vw"
+                    className={
+                      project.preview.fit === "cover"
+                        ? "object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                        : "object-contain p-12 transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
+                    }
                   />
 
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-2xl font-medium tracking-tight text-ink transition-transform duration-500 ease-out group-hover:translate-x-2 md:text-4xl lg:text-5xl">
+                  <span className="absolute left-4 top-4 rounded-full border border-line bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted backdrop-blur-sm">
+                    {project.tag}
+                  </span>
+                </div>
+
+                <div className="mt-5 flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <h3 className="flex items-baseline gap-2.5 text-xl font-medium tracking-tight text-ink transition-transform duration-500 ease-out group-hover:translate-x-1 md:text-2xl">
+                      <span className="font-mono text-xs text-faint">
+                        0{i + 1}
+                      </span>
                       {project.title}
                     </h3>
-                    <p className="mt-2 max-w-lg text-sm text-muted md:text-[15px]">
+                    <p className="mt-1.5 max-w-md text-sm text-muted">
                       {project.summary}
                     </p>
                   </div>
-
-                  <span className="mono hidden shrink-0 text-xs text-faint md:block">
-                    {project.tag}
-                  </span>
-
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line text-ink transition-all duration-500 group-hover:border-ink group-hover:bg-ink group-hover:text-background">
+                  <span className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line text-ink transition-all duration-500 group-hover:border-ink group-hover:bg-ink group-hover:text-background">
                     <FiArrowUpRight className="h-4 w-4 transition-transform duration-500 group-hover:rotate-45" />
                   </span>
                 </div>
 
-                {/* Accessible overlay trigger — keeps the h3 a real heading */}
+                {/* stretched accessible trigger — keeps the h3 a real heading */}
                 <button
                   type="button"
                   aria-label={`View ${project.title} — ${project.tag} project`}
                   aria-haspopup="dialog"
                   onClick={() => openModal(project)}
-                  onMouseEnter={() => setActive(i)}
-                  onMouseLeave={() => setActive(null)}
-                  onFocus={() => setActive(i)}
-                  onBlur={() => setActive(null)}
-                  className="absolute inset-0 z-10 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="absolute inset-0 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 />
-              </motion.div>
+              </motion.article>
             ))}
           </div>
-
-          <p className="mono mt-10 text-xs text-faint">
-            Tap any project for the full breakdown.
-          </p>
         </div>
       </section>
-
-      {/* cursor-following preview (desktop / hover devices only) */}
-      {canHover && (
-        <motion.div
-          aria-hidden
-          style={{ x: sx, y: sy }}
-          className="pointer-events-none fixed left-0 top-0 z-[60] hidden md:block"
-        >
-          <AnimatePresence>
-            {active !== null && (
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                style={{ translateX: 28, translateY: "-50%" }}
-              >
-                <Thumb
-                  project={data[active]}
-                  sizes="340px"
-                  className="h-[220px] w-[330px] rounded-xl shadow-2xl shadow-ink/20 ring-1 ring-inset ring-line"
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      )}
 
       <ProjectModal
         project={selected}

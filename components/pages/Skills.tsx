@@ -17,7 +17,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="w-full scroll-mt-24 px-6 py-24 md:px-10 md:py-36"
+      className="w-full scroll-mt-24 px-6 py-16 md:px-10 md:py-24"
     >
       <div className="mx-auto max-w-[1240px]">
         <SectionHeader index="02" title="Skills" label="What I work with" />
@@ -59,7 +59,7 @@ export default function Skills() {
       </div>
 
       {/* technology marquee — textural band */}
-      <div className="relative mt-24 border-y border-line py-6 md:mt-32">
+      <div className="relative mt-14 border-y border-line py-6 md:mt-20">
         <Marquee durationSec={48}>
           {allTech.map((tech, i) => (
             <span key={tech} className="flex items-center">

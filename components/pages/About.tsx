@@ -18,7 +18,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="w-full scroll-mt-24 px-6 py-24 md:px-10 md:py-36"
+      className="w-full scroll-mt-24 px-6 py-16 md:px-10 md:py-24"
     >
       <div className="mx-auto max-w-[1240px]">
         <SectionHeader index="01" title="About" label="Who I am" />

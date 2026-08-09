@@ -1,7 +1,6 @@
 import Introduction from "@/components/pages/Introduction";
 import About from "@/components/pages/About";
 import Skills from "@/components/pages/Skills";
-import Experience from "@/components/pages/Experience";
 import BasicCards from "@/components/pages/BasicCards";
 import Contact from "@/components/pages/Contact";
 
@@ -11,7 +10,6 @@ export default function Home() {
       <Introduction />
       <About />
       <Skills />
-      <Experience />
       <BasicCards />
       <Contact />
     </main>
