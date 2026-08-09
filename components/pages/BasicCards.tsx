@@ -21,6 +21,34 @@ type Project = ProjectDetails & {
 
 const data: Project[] = [
   {
+    title: "Poost Company",
+    summary:
+      "A full custom-packaging e-commerce platform — design, proof, manufacture, and reorder.",
+    tag: "E-commerce",
+    description:
+      "A custom branded packaging e-commerce platform for food, retail, and e-commerce brands — handling design, proofing, in-house manufacturing, and fulfillment end to end.",
+    image: "/poost-company.jpg",
+    preview: { src: "/poost-company.jpg", fit: "cover" },
+    url: "https://poostcompany.com/",
+    longDescription: `Poost Company is a custom packaging marketplace where brands design, approve, and reorder branded packaging — boxes, pouches, cups, wrapping paper, stickers, and more.
+
+Customers start from a product, customize dielines and artwork, then approve a digital or physical proof before anything goes to print. Orders are manufactured in-house with quality control at every stage, then shipped or held in the Poost warehouse for future runs.
+
+Saved specifications turn reordering into a few clicks, and real-time order tracking keeps every run visible from proof to delivery. A "Branding Laboratory" (Poost Studio) offers design consultation, while the Poost Sustainability Alliance frames the brand's push toward responsible materials.`,
+    techStack: ["Shopify", "React", "Supabase", "PostgreSQL", "Node.js", "Tailwind CSS"],
+    highlights: ["E-commerce Platform", "Custom Manufacturing"],
+    features: [
+      "Product customization with digital or physical proof approval before print",
+      "In-house manufacturing with quality control at every stage",
+      "Quick reorder using saved product specifications",
+      "Real-time order progress tracking",
+      "Warehouse storage and fulfillment for future runs",
+      "Branding Laboratory (Poost Studio) for design consultation",
+      "Sustainability-focused materials via the Poost Sustainability Alliance",
+      "Multi-region shipping with best-price positioning",
+    ],
+  },
+  {
     title: "Doon.ph",
     summary: "The Philippines' first fully insured peer-to-peer car-sharing marketplace.",
     tag: "Marketplace",
@@ -212,7 +240,7 @@ export default function BasicCards() {
         }}
       >
         <div className="mx-auto max-w-[1240px]">
-          <SectionHeader index="04" title="Selected Work" label="Five of many" />
+          <SectionHeader index="04" title="Selected Work" label="Six of many" />
 
           <div className="flex flex-col">
             {data.map((project, i) => (
