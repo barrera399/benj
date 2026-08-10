@@ -106,6 +106,33 @@ The platform also includes a Fleet feature, allowing car rental companies to lis
     ],
   },
   {
+    title: "Vieno English",
+    summary:
+      "An AI-powered English-learning platform connecting Vietnamese students with expert foreign teachers.",
+    tag: "AI · EdTech",
+    description:
+      "An AI-powered English learning platform where Vietnamese students connect with expert foreign teachers for live 1-on-1 and group classes — with booking, payments, and AI woven through every lesson.",
+    image: "/vieno-english.jpg",
+    preview: { src: "/vieno-english.jpg", fit: "cover" },
+    url: "https://vienoenglish.com",
+    longDescription: `Vieno English is an AI-powered platform where Vietnamese students connect with expert foreign teachers for personalized 1-on-1 and group English lessons.
+
+Live classes run over the Zoom API, with booking and Stripe-powered payments built in. AI runs throughout: an AI teacher supports learners, quizzes are generated automatically from each discussion, and entire courses can be created with AI.
+
+Automation via n8n stitches the flows together — from scheduling and payments to lesson follow-ups — so the experience stays smooth from the first booking to ongoing practice.`,
+    techStack: ["React", "Node.js", "n8n", "Zoom API", "Stripe"],
+    highlights: ["AI-Powered Learning", "Live Classes + Booking"],
+    features: [
+      "Live 1-on-1 and group classes via the Zoom API",
+      "AI teacher that supports learners in real time",
+      "Auto-generated quizzes based on each discussion",
+      "AI-assisted course creation",
+      "Booking and scheduling built in",
+      "Stripe payment integration",
+      "n8n automation across scheduling, payments, and follow-ups",
+    ],
+  },
+  {
     title: "Crafted Catalyst",
     summary: "Multi-tenant AI chatbot platform with voice, subdomain hosting and one-line embedding.",
     tag: "AI Platform",
@@ -194,11 +221,43 @@ The multi-tenant architecture ensures secure isolation between different clients
       "Comprehensive property management",
     ],
   },
+  {
+    title: "Prestige",
+    summary:
+      "Filinvest's luxury real-estate brand — refined living across prime Metro Manila locations.",
+    tag: "Real Estate",
+    description:
+      "Prestige by Filinvest — luxury residential properties and premium condominiums in the Philippines' most exclusive locations, presented as multi-generational family legacies.",
+    image: "/prestige-filinvest.jpg",
+    preview: { src: "/prestige-filinvest.jpg", fit: "cover" },
+    url: "https://prestigebyfilinvest.com/",
+    longDescription: `Prestige by Filinvest is the developer's luxury residential brand — thoughtfully crafted living spaces across prime Metro Manila locations, positioned as multi-generational family legacies rather than transactional parcels.
+
+The platform showcases a diverse portfolio — condotels (Fora), residential towers (The Signature), and hillside estates (The Peak, Fortune Hill) — spanning San Juan, Quezon City, and Rizal. Manor-like residences, low-density exclusive communities, and refined amenities anchor the brand's premium positioning.
+
+Immersive virtual tours let buyers explore properties remotely, while an Investor's Concierge service offers personalized guidance on upscale investments.`,
+    techStack: ["Next.js", "TypeScript", "React", "Payload CMS"],
+    highlights: ["Luxury Real Estate", "Premium Portfolio"],
+    features: [
+      "Manor-like residences with generous, home-sized units",
+      "Low-density, exclusive communities with refined amenities",
+      "Strategic prime locations across Metro Manila",
+      "Immersive virtual tour experiences",
+      "Investor's Concierge for personalized investment guidance",
+      "Diverse portfolio: condotels, residential towers, and hillside estates",
+    ],
+  },
 ];
+
+const INITIAL_COUNT = 4;
 
 export default function BasicCards() {
   const [selected, setSelected] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+
+  const visible = expanded ? data : data.slice(0, INITIAL_COUNT);
+  const remaining = data.length - INITIAL_COUNT;
 
   const openModal = (p: Project) => {
     setSelected({
@@ -220,10 +279,10 @@ export default function BasicCards() {
         className="w-full scroll-mt-24 px-6 py-16 md:px-10 md:py-24"
       >
         <div className="mx-auto max-w-[1240px]">
-          <SectionHeader index="04" title="Selected Work" label="Seven of many" />
+          <SectionHeader index="04" title="Selected Work" label="Nine of many" />
 
           <div className="grid gap-x-8 gap-y-12 md:grid-cols-2">
-            {data.map((project, i) => (
+            {visible.map((project, i) => (
               <motion.article
                 key={project.title}
                 initial={{ opacity: 0, y: 28 }}
@@ -286,6 +345,22 @@ export default function BasicCards() {
               </motion.article>
             ))}
           </div>
+
+          {remaining > 0 && (
+            <div className="mt-12 flex justify-center md:mt-16">
+              <button
+                type="button"
+                onClick={() => setExpanded((v) => !v)}
+                aria-expanded={expanded}
+                className="group inline-flex items-center gap-3 rounded-full border border-line-2 px-6 py-3 text-sm font-medium text-ink transition-colors duration-300 hover:bg-ink hover:text-background"
+              >
+                {expanded ? "Show less" : "More projects"}
+                <span className="font-mono text-xs text-faint transition-colors duration-300 group-hover:text-background/70">
+                  {expanded ? "−" : `+${remaining}`}
+                </span>
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
