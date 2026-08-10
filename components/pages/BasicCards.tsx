@@ -106,6 +106,26 @@ The platform also includes a Fleet feature, allowing car rental companies to lis
     ],
   },
   {
+    title: "Brave Connective",
+    summary: "Uniting AdSpark, m360 and Inquiro — data, storytelling and customer engagement.",
+    tag: "Corporate",
+    description:
+      "Powers the future of business through data, storytelling, messaging, and customer engagement solutions. Uniting AdSpark, m360, and Inquiro to bring brands closer to their customers.",
+    image: "/white_brave.png",
+    preview: { src: "/white_brave.png", fit: "contain", dark: true },
+    url: "https://www.braveconnective.ph/",
+    longDescription: `Brave Connective is a comprehensive business solutions platform that unifies multiple companies (AdSpark, m360, and Inquiro) to deliver integrated data, storytelling, messaging, and customer engagement services. The platform enables brands to connect more effectively with their customers through innovative digital solutions and strategic communication strategies.`,
+    techStack: ["Next.js", "TypeScript", "React", "Node.js", "Payload CMS"],
+    highlights: ["Multi-Company Integration", "Customer Engagement"],
+    features: [
+      "Unified platform for multiple companies",
+      "Data-driven business solutions",
+      "Storytelling and messaging services",
+      "Customer engagement tools",
+      "Brand-to-customer connectivity",
+    ],
+  },
+  {
     title: "Vieno English",
     summary:
       "An AI-powered English-learning platform connecting Vietnamese students with expert foreign teachers.",
@@ -158,26 +178,6 @@ The multi-tenant architecture ensures secure isolation between different clients
       "Scalable cloud infrastructure",
       "Secure tenant isolation",
       "Real-time chat and voice capabilities",
-    ],
-  },
-  {
-    title: "Brave Connective",
-    summary: "Uniting AdSpark, m360 and Inquiro — data, storytelling and customer engagement.",
-    tag: "Corporate",
-    description:
-      "Powers the future of business through data, storytelling, messaging, and customer engagement solutions. Uniting AdSpark, m360, and Inquiro to bring brands closer to their customers.",
-    image: "/white_brave.png",
-    preview: { src: "/white_brave.png", fit: "contain", dark: true },
-    url: "https://www.braveconnective.ph/",
-    longDescription: `Brave Connective is a comprehensive business solutions platform that unifies multiple companies (AdSpark, m360, and Inquiro) to deliver integrated data, storytelling, messaging, and customer engagement services. The platform enables brands to connect more effectively with their customers through innovative digital solutions and strategic communication strategies.`,
-    techStack: ["Next.js", "TypeScript", "React", "Node.js", "Payload CMS"],
-    highlights: ["Multi-Company Integration", "Customer Engagement"],
-    features: [
-      "Unified platform for multiple companies",
-      "Data-driven business solutions",
-      "Storytelling and messaging services",
-      "Customer engagement tools",
-      "Brand-to-customer connectivity",
     ],
   },
   {
