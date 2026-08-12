@@ -27,7 +27,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Joseph Barrera — Full-Stack Developer",
+  title: "Joseph Barrera — Full-Stack Developer · Web & Mobile",
   description:
     "Joseph Benjamin Barrera — full-stack developer from Tarlac, Philippines. Building scalable, thoughtful software for the web.",
 };

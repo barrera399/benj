@@ -69,7 +69,7 @@ export default function Introduction() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="mb-10 flex items-center justify-between md:mb-14"
         >
-          <span className="eyebrow">Full-Stack Developer</span>
+          <span className="eyebrow">Full-Stack Developer — Web &amp; Mobile</span>
           <span className="eyebrow flex items-center gap-2">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ink/50" />
@@ -98,10 +98,11 @@ export default function Introduction() {
             className="max-w-xl text-lg leading-relaxed text-muted md:text-xl"
           >
             I&apos;m{" "}
-            <span className="text-ink">Joseph Barrera</span>, a full-stack
-            developer from Tarlac, Philippines. Five years turning complex
-            problems into clean, dependable products — from insured car-sharing
-            marketplaces to multi-tenant AI platforms.
+            <span className="text-ink">Joseph Barrera</span>, a{" "}
+            <span className="text-ink">mid-senior full-stack developer</span>{" "}
+            from Tarlac, Philippines, with five years of experience turning
+            complex problems into clean, dependable products — increasingly
+            powered by <span className="text-ink">AI</span>.
           </motion.p>
 
           <motion.div
@@ -122,14 +123,6 @@ export default function Introduction() {
                 </a>
               </Magnetic>
 
-              <Link
-                href="/Joseph Benjamin Barrera - Resume.pdf"
-                target="_blank"
-                className="link-underline inline-flex items-center gap-2 py-3.5 text-sm font-medium text-ink"
-              >
-                Résumé
-                <span className="text-xs">↗</span>
-              </Link>
             </div>
 
             <div className="flex items-center gap-5">
